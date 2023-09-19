@@ -28,7 +28,7 @@ report 50001 "Employment History Report"
                 column(To_Date;"To Date")
                 {
                 }
-                column(Status;Status)
+                column(Status; Status)
                 {
                 }
             }
