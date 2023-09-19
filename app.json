@@ -1,6 +1,6 @@
 {
-  "id": "e7dcb29f-1a24-4062-864f-f103ce98b4d6",
-  "name": "HR-Module",
+  "id": "30f86450-0e57-4a3c-be9a-60278779ae58",
+  "name": "HR Module",
   "publisher": "Default publisher",
   "version": "1.0.0.0",
   "brief": "",
@@ -13,19 +13,15 @@
   "dependencies": [],
   "screenshots": [],
   "platform": "1.0.0.0",
-  "application": "22.0.0.0",
+  "application": "18.0.0.0",
   "idRanges": [
     {
       "from": 50000,
-      "to": 50100
+      "to": 50149
     }
   ],
-  "resourceExposurePolicy": {
-    "allowDebugging": true,
-    "allowDownloadingSource": true,
-    "includeSourceInSymbolFile": true
-  },
-  "runtime": "11.0",
+  "showMyCode": true,
+  "runtime": "7.0",
   "features": [
     "NoImplicitWith"
   ]
