@@ -1,6 +1,6 @@
 page 50003 EmployeeRecordCard
 {
-    ApplicationArea = All;
+    // ApplicationArea = All;
     Caption = 'EmployeeRecordCard';
     PageType = Card;
     SourceTable = "Employee Record T";
