@@ -100,4 +100,6 @@ table 50001 "Employee Record T"
             Clustered = true;
         }
     }
+    var
+        
 }

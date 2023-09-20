@@ -13,6 +13,15 @@ pageextension 50002 "Employee History" extends "Employee Card"
                 RunPageLink = "Emplyee No." = FIELD("No.");
                 ToolTip = 'View Employee History';
             }
+            action(ShowEmployeeTraining)
+            {
+                Caption = 'Employee Training';
+                Image = Certificate;
+                ApplicationArea = All;
+                RunObject = Page "Employee Training Page";
+                RunPageLink = "Employee No." = FIELD("No.");
+                ToolTip = 'View Employee Training';
+            }
         }
     }
 }

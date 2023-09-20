@@ -6,7 +6,7 @@ report 50001 "Employment History Report"
     // DefaultLayout = Word;
     // UsageCategory = ReportsAndAnalysis;
     RDLCLayout = 'Employment History.RDLC';
-    DefaultLayout = RDLC;
+    DefaultLayout = Word;
     UsageCategory = ReportsAndAnalysis;
     dataset
     {
@@ -21,19 +21,49 @@ report 50001 "Employment History Report"
             dataitem("Employee Record T"; "Employee Record T")
             {
                 DataItemLink = "Emplyee No." = field("No.");
-                column(Designation;Designation)
+                column(Designation; Designation)
                 {
                 }
-                column(From_Date;"From Date")
+                column(From_Date; "From Date")
                 {
                 }
-                column(To_Date;"To Date")
+                column(To_Date; "To Date")
                 {
                 }
                 column(Status; Status)
                 {
                 }
+
+                trigger OnPreDataItem()
+                begin
+                    if StartingDate <> 0D then
+                        "Employee Record T".SetRange("From Date", StartingDate, EndingDate);
+                end;
             }
         }
     }
+         requestpage
+        {
+            layout
+            {
+                area(Content)
+                {
+                    group("Filter By Date")
+                    {
+                        field("Starting Date"; StartingDate)
+                        {
+                            ApplicationArea = All;
+                        }
+                        field("Ending Date"; EndingDate)
+                        {
+                            ApplicationArea = All;
+                        }
+                    }
+                }
+            }
+        }
+        var
+            StartingDate: Date;
+            EndingDate : Date;
+            // EmployeeRecordT: Record "Employee Record T";
 }

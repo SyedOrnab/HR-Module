@@ -5,7 +5,7 @@ page 50001 EmployeeRecordP
     PageType = List;
     SourceTable = "Employee Record T";
     UsageCategory = Lists;
-    // CardPageId = EmployeeRecordCard;
+    // CardPageId = "Employee Card";
     AutoSplitKey = true;
     
     layout
