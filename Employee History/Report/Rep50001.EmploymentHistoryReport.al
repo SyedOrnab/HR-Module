@@ -3,9 +3,11 @@ report 50001 "Employment History Report"
     ApplicationArea = All;
     Caption = 'Employment History Report';
     WordLayout = 'Employment History.docx';
-    DefaultLayout = Word;
+    // DefaultLayout = Word;
+    // UsageCategory = ReportsAndAnalysis;
+    RDLCLayout = 'Employment History.RDLC';
+    DefaultLayout = RDLC;
     UsageCategory = ReportsAndAnalysis;
-
     dataset
     {
         dataitem(Employee; "Employee")
