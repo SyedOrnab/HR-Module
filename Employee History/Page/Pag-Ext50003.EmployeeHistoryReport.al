@@ -10,7 +10,7 @@ pageextension 50003 "Employee History Report" extends "Employee List"
                     Caption = 'Print';
                     Ellipsis = true;
                     Image = Print;
-                    ToolTip = 'Print an order confiörmation. A report request window opens where you can specify what to include on the print-out.';
+                    ToolTip = 'Print an order confirmation. A report request window opens where you can specify what to include on the print-out.';
 
                     trigger OnAction()
                     var
