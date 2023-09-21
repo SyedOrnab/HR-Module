@@ -6,7 +6,7 @@ page 50002 "Employee Training Page"
     SourceTable = "Employee Training";
     UsageCategory = Lists;
     AutoSplitKey = true;
-    
+
     layout
     {
         area(content)
@@ -73,13 +73,12 @@ page 50002 "Employee Training Page"
                     Editable = false;
                     ToolTip = 'Specifies the value of the Certificate field.';
 
-                    // trigger OnDrillDown()
-                    // var
-                    //     Selection: Integer;
-                    // begin
-                    //     if Rec."Document Reference ID".HasValue() then
-                    //         // Export(true);
-                    // end;
+                    trigger OnDrillDown()
+                    var
+                        Selection: Integer;
+                    begin
+                        InitiateUploadFile()
+                    end;
                 }
             }
         }
@@ -105,14 +104,54 @@ page 50002 "Employee Training Page"
                     DocumentAttachmentDetails.RunModal();
                 end;
             }
+
+            action("Download")
+            {
+                ApplicationArea = ALL;
+                Caption = 'Download';
+                Image = Download;
+                ToolTip = 'Download';
+
+                trigger OnAction()
+                begin
+                    DownloadFile();
+                end;
+            }
         }
     }
-    // trigger OnNewRecord(BelowxRec: Boolean)
-    // begin
-    //     Rec.Certificate := SelectFileTxt;
-    // end;
     var
         myInt: Integer;
         DownloadEnabled: Boolean;
         SelectFileTxt: Label 'Attach File(s)...';
+
+    local procedure InitiateUploadFile()
+    var
+        PathToFile: Text;
+        OutStr: OutStream;
+        InStr: InStream;
+
+    begin
+        File.UploadIntoStream('', '', '', PathToFile, InStr);
+        Rec.Certificate.CreateOutStream(OutStr);
+        CopyStream(OutStr, InStr);
+        Rec.Modify();
+    end;
+
+
+    local procedure DownloadFile()
+    var
+        OutStr: OutStream;
+        InStr: Instream;
+        Filename: Text;
+        FileMng: Codeunit "File Management";
+        TempBlob: Codeunit "Temp Blob";
+    begin
+        Filename := 'certificate.pdf';
+        Rec.CalcFields(Certificate);
+        Rec.Certificate.CreateInStream(InStr);
+        TempBlob.CreateOutStream(OutStr);
+        CopyStream(OutStr, InStr);
+        FileMng.BLOBExport(TempBlob, Filename, true);
+    end;
+
 }
