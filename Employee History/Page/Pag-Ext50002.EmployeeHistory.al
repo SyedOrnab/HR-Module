@@ -16,7 +16,7 @@ pageextension 50002 "Employee History" extends "Employee Card"
             action(ShowEmployeeTraining)
             {
                 Caption = 'Employee Training';
-                Image = Certificate;
+                Image = UserCertificate;
                 ApplicationArea = All;
                 RunObject = Page "Employee Training Page";
                 RunPageLink = "Employee No." = FIELD("No.");
