@@ -141,13 +141,13 @@ table 50002 "Employee Training"
     //         Caption = 'Document Reference ID';
     //     }
     }
-    // keys
-    // {
-    //     key(PK; "Employee No.","Line No.")
-    //     {
-    //         Clustered = true;
-    //     }
-    // }
+    keys
+    {
+        key(PK; "Employee No.","Line No.")
+        {
+            Clustered = true;
+        }
+    }
     // var
     // EmptyFileNameErr: Label 'Please choose a file to attach.';
     // DuplicateErr: Label 'This file is already attached to the document. Please choose another file.';
