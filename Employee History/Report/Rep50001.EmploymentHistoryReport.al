@@ -1,7 +1,7 @@
 report 50001 "Employment History Report"
 {
     ApplicationArea = All;
-    Caption = 'Employment History Report';
+    Caption = 'History Report';
     WordLayout = 'Employment History.docx';
     // DefaultLayout = Word;
     // UsageCategory = ReportsAndAnalysis;
@@ -43,8 +43,12 @@ report 50001 "Employment History Report"
                 begin
                     if StartingDate <> 0D then
                         "Employee Record T".SetRange("From Date", StartingDate, EndingDate);
-                    
-                    Employee.SetRange("No.", "Employee Record T"."Emplyee No.");
+
+                    // if EndingDate <> 0D then
+                    //     "Employee Record T".SetRange("To Date", StartingDate, EndingDate);
+
+                     if "Employee Record T"."Emplyee No." <> '' then
+                     Employee.SetRange("No.", "Employee Record T"."Emplyee No.");
                 end;
             }
         }
