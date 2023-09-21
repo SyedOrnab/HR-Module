@@ -33,11 +33,18 @@ report 50001 "Employment History Report"
                 column(Status; Status)
                 {
                 }
-
+                // DataItemTableView = filter
+                // {
+                //     DataItemLink = "Emplyee No." = field("No.");
+                //     // Add a filter condition to only include records with data in Employee Record T
+                //     DataItemLink = field("From Date") IS NOT NULL;
+                // }
                 trigger OnPreDataItem()
                 begin
                     if StartingDate <> 0D then
                         "Employee Record T".SetRange("From Date", StartingDate, EndingDate);
+                    
+                    Employee.SetRange("No.", "Employee Record T"."Emplyee No.");
                 end;
             }
         }

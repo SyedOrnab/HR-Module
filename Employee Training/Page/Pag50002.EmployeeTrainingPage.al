@@ -73,13 +73,13 @@ page 50002 "Employee Training Page"
                     Editable = false;
                     ToolTip = 'Specifies the value of the Certificate field.';
 
-                    trigger OnDrillDown()
-                    var
-                        Selection: Integer;
-                    begin
-                        if Rec."Document Reference ID".HasValue() then
-                            Export(true);
-                    end;
+                    // trigger OnDrillDown()
+                    // var
+                    //     Selection: Integer;
+                    // begin
+                    //     if Rec."Document Reference ID".HasValue() then
+                    //         // Export(true);
+                    // end;
                 }
             }
         }
@@ -107,10 +107,10 @@ page 50002 "Employee Training Page"
             }
         }
     }
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Rec.Certificate := SelectFileTxt;
-    end;
+    // trigger OnNewRecord(BelowxRec: Boolean)
+    // begin
+    //     Rec.Certificate := SelectFileTxt;
+    // end;
     var
         myInt: Integer;
         DownloadEnabled: Boolean;
