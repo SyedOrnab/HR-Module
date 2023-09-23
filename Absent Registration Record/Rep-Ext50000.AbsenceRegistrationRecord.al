@@ -4,16 +4,18 @@ reportextension 50000 "Absence Registration Record" extends "Employee - Staff Ab
     {
         add("Employee Absence")
         {
-            column(Depertment; 'Department') { }
+            column(Depertment; Emp."Job Title") { }
         }
     }
-     rendering
-    {
-        layout(Print)
-        {
-            Type = Word;
-            LayoutFile = 'AbsenceRegRecord.docx';
-        }
+    //  rendering
+    // {
+    //     layout(Print)
+    //     {
+    //         Type = Word;
+    //         LayoutFile = 'AbsenceRegRecord.docx';
+    //     }
 
-    }
+    // }
+    var
+    Emp: Record "Employee";
 }

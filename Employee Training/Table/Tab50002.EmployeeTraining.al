@@ -80,66 +80,7 @@ table 50002 "Employee Training"
         field(13; "Certificate"; Blob)
         {
             DataClassification = ToBeClassified;
-            // SubType = 'File';
-            // NotBlank = true;
-
-            // trigger OnValidate()
-            // var
-            //     DocumentAttachmentMgmt: Codeunit "Document Attachment Mgmt";
-            // begin
-            //     if Certificate = '' then
-            //         Error(EmptyFileNameErr);
-
-            //     if DocumentAttachmentMgmt.IsDuplicateFile(
-            //         "Table ID", "Employee No.", "Document Type".AsInteger(), "Line No.",Certificate, "File Extension")
-            //     then
-            //         Error(DuplicateErr);
-            // end;
         }
-    //     field(14; "Document Type"; Enum "Attachment Document Type")
-    //     {
-    //         Caption = 'Document Type';
-    //     }
-    //     field(15; "Table ID"; Integer)
-    //     {
-    //         Caption = 'Table ID';
-    //         NotBlank = true;
-    //         TableRelation = AllObjWithCaption."Object ID" WHERE("Object Type" = CONST(Table));
-    //     }
-    //     field(16; "File Type"; Enum "Document Attachment File Type")
-    //     {
-    //         Caption = 'File Type';
-    //     }
-    //     field(17; "File Extension"; Text[30])
-    //     {
-    //         Caption = 'File Extension';
-
-    //         trigger OnValidate()
-    //         begin
-    //             case LowerCase("File Extension") of
-    //                 'jpg', 'jpeg', 'bmp', 'png', 'tiff', 'tif', 'gif':
-    //                     "File Type" := "File Type"::Image;
-    //                 'pdf':
-    //                     "File Type" := "File Type"::PDF;
-    //                 'docx', 'doc':
-    //                     "File Type" := "File Type"::Word;
-    //                 'xlsx', 'xls':
-    //                     "File Type" := "File Type"::Excel;
-    //                 'pptx', 'ppt':
-    //                     "File Type" := "File Type"::PowerPoint;
-    //                 'msg':
-    //                     "File Type" := "File Type"::Email;
-    //                 'xml':
-    //                     "File Type" := "File Type"::XML;
-    //                 else
-    //                     "File Type" := "File Type"::Other;
-    //             end;
-    //         end;
-    //     }
-    //     field(18; "Document Reference ID"; Media)
-    //     {
-    //         Caption = 'Document Reference ID';
-    //     }
     }
     keys
     {
@@ -148,36 +89,4 @@ table 50002 "Employee Training"
             Clustered = true;
         }
     }
-    // var
-    // EmptyFileNameErr: Label 'Please choose a file to attach.';
-    // DuplicateErr: Label 'This file is already attached to the document. Please choose another file.';
-    // procedure Export(ShowFileDialog: Boolean) Result: Text
-    // var
-    //     TempBlob: Codeunit "Temp Blob";
-    //     FileManagement: Codeunit "File Management";
-    //     DocumentStream: OutStream;
-    //     FullFileName: Text;
-    //     IsHandled: Boolean;
-    // begin
-    //     IsHandled := false;
-    //     OnBeforeExport(Rec, IsHandled);
-    //     if IsHandled then
-    //         exit;
-
-    //     if "Employee No." = 0 then
-    //         exit;
-            
-    //     if not "Document Reference ID".HasValue() then
-    //         exit;
-
-    //     OnBeforeExportAttachment(Rec);
-    //     FullFileName := "File Name" + '.' + "File Extension";
-    //     TempBlob.CreateOutStream(DocumentStream);
-    //     "Document Reference ID".ExportStream(DocumentStream);
-    //     exit(FileManagement.BLOBExport(TempBlob, FullFileName, ShowFileDialog));
-    // end;
-    // local procedure OnBeforeExport(var DocumentAttachment: Record "Document Attachment"; var IsHandled: Boolean)
-    // begin
-    // end;
-
 }

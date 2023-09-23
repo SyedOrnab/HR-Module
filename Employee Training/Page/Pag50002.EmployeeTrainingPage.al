@@ -72,12 +72,19 @@ page 50002 "Employee Training Page"
                     ApplicationArea = All;
                     Editable = false;
                     ToolTip = 'Specifies the value of the Certificate field.';
-
                     trigger OnDrillDown()
                     var
                         Selection: Integer;
                     begin
-                        InitiateUploadFile()
+                        if not FileUploaded then
+                        begin
+                            InitiateUploadFile();
+                            FileUploaded := true;
+                        end
+                        else
+                        begin
+                            DownloadFile();
+                        end;
                     end;
                 }
             }
@@ -123,6 +130,7 @@ page 50002 "Employee Training Page"
         myInt: Integer;
         DownloadEnabled: Boolean;
         SelectFileTxt: Label 'Attach File(s)...';
+        FileUploaded: Boolean;
 
     local procedure InitiateUploadFile()
     var
