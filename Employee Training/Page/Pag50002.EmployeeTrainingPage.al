@@ -199,7 +199,7 @@ page 50002 "Employee Training Page"
         FileMng: Codeunit "File Management";
         TempBlob: Codeunit "Temp Blob";
     begin
-        Filename := (Rec."File Name"+'.pdf');
+        Filename := (Rec."File Name"+'.'+Rec."File Extension");
         Rec.CalcFields(Certificate);
         Rec.Certificate.CreateInStream(InStr);
         TempBlob.CreateOutStream(OutStr);
