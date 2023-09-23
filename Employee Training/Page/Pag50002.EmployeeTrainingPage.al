@@ -71,8 +71,9 @@ page 50002 "Employee Training Page"
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                     ToolTip = 'Specifies the value of the Certificate field.';
-                    trigger OnDrillDown()
+                    /*trigger OnDrillDown()
                     var
                         Selection: Integer;
                     begin
@@ -85,7 +86,32 @@ page 50002 "Employee Training Page"
                         begin
                             DownloadFile();
                         end;
+                    end;*/
+                }
+                field("File Name"; Rec."File Name")
+                {
+                    ToolTip = 'Specifies the value of the File Name field.';
+                    // Visible = false;
+                    Caption = 'Certificate File Name';
+                    trigger OnDrillDown()
+                    begin
+                        DownloadFile();
                     end;
+                }
+                field("File Extension"; Rec."File Extension")
+                {
+                    ToolTip = 'Specifies the value of the File Extension field.';
+                    Visible = false;
+                }
+                field("Attached By"; Rec."Attached By")
+                {
+                    ToolTip = 'Specifies the value of the Attached By field.';
+                    Visible = false;
+                }
+                field("Attached Date";Rec."Attached Date")
+                {
+                    ToolTip = 'Specifies the value of the Attached Date field.';
+                    Visible = false;
                 }
             }
         }
@@ -94,7 +120,7 @@ page 50002 "Employee Training Page"
     {
         area(Processing)
         {
-            action("Attach Certificate")
+            /*action("Attach Certificate old")
             {
                 ApplicationArea = All;
                 Caption = 'Attachments';
@@ -110,8 +136,27 @@ page 50002 "Employee Training Page"
                     DocumentAttachmentDetails.OpenForRecRef(RecRef);
                     DocumentAttachmentDetails.RunModal();
                 end;
-            }
+            }*/
+            action("Attach Certificate")
+            {
+                ApplicationArea = All;
+                Caption = 'Attach Certificate';
+                Image = Attach;
+                ToolTip = 'Import Blob File';
 
+                trigger OnAction()
+                var
+                    FileMng: Codeunit "File Management";
+                    TempBlob: Codeunit "Temp Blob";
+                    InStr: InStream;
+                    OutStr: OutStream;
+                    Filename: Text;
+                    FilePath: Text;
+                begin
+                    if UploadIntoStream(SelectFileText1, '', '', FilePath, InStr) then
+                        Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
+                end;
+            }
             action("Download")
             {
                 ApplicationArea = ALL;
@@ -129,8 +174,8 @@ page 50002 "Employee Training Page"
     var
         myInt: Integer;
         DownloadEnabled: Boolean;
-        SelectFileTxt: Label 'Attach File(s)...';
         FileUploaded: Boolean;
+        SelectFileText1: Label 'Select File..';
 
     local procedure InitiateUploadFile()
     var
@@ -154,7 +199,7 @@ page 50002 "Employee Training Page"
         FileMng: Codeunit "File Management";
         TempBlob: Codeunit "Temp Blob";
     begin
-        Filename := 'certificate.pdf';
+        Filename := (Rec."File Name"+'.pdf');
         Rec.CalcFields(Certificate);
         Rec.Certificate.CreateInStream(InStr);
         TempBlob.CreateOutStream(OutStr);

@@ -81,12 +81,65 @@ table 50002 "Employee Training"
         {
             DataClassification = ToBeClassified;
         }
+        field(14; ID; Integer)
+        {
+            DataClassification = CustomerContent;
+            AutoIncrement = true;
+            Editable = false;
+        }
+        field(15; "File Name"; Text[250])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            Caption = 'Attachment';
+        }
+        field(16; "File Extension"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(17; "Attached By"; Code[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            Caption = 'Attached By';
+        }
+        field(18; "Attached Date"; DateTime)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            Caption = 'Attached On';
+        }
+        field(19; "Media Storage"; Media)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            Caption = 'Media Storage';
+        }
     }
     keys
     {
-        key(PK; "Employee No.","Line No.")
+        key(PK; "Employee No.","Line No.",ID)
         {
             Clustered = true;
         }
     }
+    trigger OnInsert()
+    begin
+        Validate("Attached By",UserId);
+        Validate("Attached Date",CurrentDateTime);
+        if "Training Name".Contains('T1') or "Training Name".Contains('T2')then
+        Message('First Attach Certificate then fillup other information');
+    end;
+    procedure SaveAttachmentIntoBlobFromStream(DocStream: InStream;FileName: Text)
+    var
+        OStream: OutStream;
+        Filemgmt: Codeunit "File Management";
+    begin
+        Validate("File Extension",Filemgmt.GetExtension(FileName));
+        Validate("File Name",CopyStr(Filemgmt.GetFileNameWithoutExtension(FileName),1,MaxStrLen("File Name")));
+        Rec.Certificate.CreateOutStream(OStream);
+        CopyStream(OStream, DocStream);
+        Insert(true);
+    end;
 }
