@@ -4,7 +4,7 @@ reportextension 50000 "Absence Registration Record" extends "Employee - Staff Ab
     {
         add("Employee Absence")
         {
-            column(Depertment; Emp."Job Title") { }
+            column(Depertment; Emplo."Job Title") { }
         }
     }
     //  rendering
@@ -17,5 +17,5 @@ reportextension 50000 "Absence Registration Record" extends "Employee - Staff Ab
 
     // }
     var
-    Emp: Record "Employee";
+    Emplo: Record "Employee";
 }
