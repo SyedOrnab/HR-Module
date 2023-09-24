@@ -94,8 +94,18 @@ page 50002 "Employee Training Page"
                     // Visible = false;
                     Caption = 'Certificate File Name';
                     trigger OnDrillDown()
+                    var
+                        FileUploaded: Boolean;
                     begin
-                        DownloadFile();
+                        if Rec."File Name" = 'Attach File(s)...' then
+                        begin
+                            AttachFile();
+                            // FileUploaded := true;
+                        end
+                        else
+                        begin
+                            DownloadFile();
+                        end;
                     end;
                 }
                 field("File Extension"; Rec."File Extension")
@@ -143,8 +153,11 @@ page 50002 "Employee Training Page"
                 Caption = 'Attach Certificate';
                 Image = Attach;
                 ToolTip = 'Import Blob File';
-
                 trigger OnAction()
+                begin
+                    AttachFile()
+                end;
+                /*trigger OnAction()
                 var
                     FileMng: Codeunit "File Management";
                     TempBlob: Codeunit "Temp Blob";
@@ -155,7 +168,7 @@ page 50002 "Employee Training Page"
                 begin
                     if UploadIntoStream(SelectFileText1, '', '', FilePath, InStr) then
                         Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
-                end;
+                end;*/
             }
             action("Download")
             {
@@ -171,11 +184,16 @@ page 50002 "Employee Training Page"
             }
         }
     }
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        Rec."File Name" := SelectFileTxt;
+    end;
     var
         myInt: Integer;
         DownloadEnabled: Boolean;
-        FileUploaded: Boolean;
+        // FileUploaded: Boolean;
         SelectFileText1: Label 'Select File..';
+        SelectFileTxt: Label 'Attach File(s)...';
 
     local procedure InitiateUploadFile()
     var
@@ -205,6 +223,18 @@ page 50002 "Employee Training Page"
         TempBlob.CreateOutStream(OutStr);
         CopyStream(OutStr, InStr);
         FileMng.BLOBExport(TempBlob, Filename, true);
+    end;
+    local procedure AttachFile()
+    var
+        FileMng: Codeunit "File Management";
+        TempBlob: Codeunit "Temp Blob";
+        InStr: InStream;
+        OutStr: OutStream;
+        Filename: Text;
+        FilePath: Text;
+    begin
+        if UploadIntoStream(SelectFileText1, '', '', FilePath, InStr) then
+        Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
     end;
 
 }

@@ -116,6 +116,12 @@ table 50002 "Employee Training"
             Editable = false;
             Caption = 'Media Storage';
         }
+        field(20; "Total Training Target"; Integer)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            
+        }
     }
     keys
     {
