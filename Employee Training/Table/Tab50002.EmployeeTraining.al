@@ -50,6 +50,8 @@ table 50002 "Employee Training"
         field(6; Duration; Integer)
         {
             DataClassification = ToBeClassified;
+            // FieldClass = FlowFilter;
+            // TableRelation = "Training Master"."Training ID";
         }
         field(7; "Planned Start Date"; Date)
         {
@@ -118,9 +120,14 @@ table 50002 "Employee Training"
         }
         field(20; "Total Training Target"; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             Editable = false;
-            
+            // FieldClass = FlowField;
+            // CalcFormula = sum("Employee Training".Duration where( "Employee No."= field("Training Name"),=field("Item Filter")));
+        }
+        field(21; "Total Training Completed"; Integer)
+        {
+            DataClassification = ToBeClassified;
         }
     }
     keys
