@@ -16,11 +16,21 @@ report 50002 "Employee Training Report"
             {
                 DataItemLink = "Employee No." = field("No.");
                 column(Training_Name; "Training Name") { }
+                column(Description;Description){}
+                column(Duration;Duration){}
+                column(Status;Status){}
+                column(Actual_Start_Date;"Actual Start Date"){}
+                column(Actual_End_Date;"Actual End Date"){}
+                column(Planned_Start_Date;"Planned Start Date"){}
+                column(Planned_End_Date;"Planned End Date"){}
+                column(Total_Training_Target;"Total Training Target"){}
+                column(Total_Training_Completed;"Total Training Completed"){}
+                // trigger OnPreDataItem()
+                // begin
+                //      if "Employee Training"."Employee No." <> '' then
+                //      Employee.SetRange("No.", "Employee Training"."Employee No.");
+                // end;
             }
         }
     }
-    trigger OnPostReport()
-    begin
-        Message(Employee.FullName());
-    end;
 }

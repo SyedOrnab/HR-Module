@@ -141,8 +141,8 @@ table 50002 "Employee Training"
     begin
         Validate("Attached By",UserId);
         Validate("Attached Date",CurrentDateTime);
-        if "Training Name".Contains('T1') or "Training Name".Contains('T2')then
-        Message('First Attach Certificate then fillup other information');
+        // if "Training Name".Contains('T1') or "Training Name".Contains('T2')then
+        // Message('First Attach Certificate then fillup other information');
     end;
     procedure SaveAttachmentIntoBlobFromStream(DocStream: InStream;FileName: Text)
     var
