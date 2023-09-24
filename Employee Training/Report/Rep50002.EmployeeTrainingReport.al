@@ -31,6 +31,12 @@ report 50002 "Employee Training Report"
             column(Status; Status)
             {
             }
+            column(Total_Training_Target;"Total Training Target")
+            {
+            }
+            column(Total_Training_Completed;"Total Training Completed")
+            {
+            }
         }
     }
     requestpage
