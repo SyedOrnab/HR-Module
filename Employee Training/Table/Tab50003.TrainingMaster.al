@@ -5,17 +5,29 @@ table 50003 "Training Master"
     
     fields
     {
-        field(1; "Training Name"; Text[50])
+        field(1; "Training ID"; Code[20])
+        {
+            Caption = 'Training Code';
+            DataClassification = ToBeClassified;
+        }
+        field(2; "Training Name"; Text[50])
         {
             Caption = 'Training Name';
         }
-        field(2; Description; Text[100])
+        field(3; Description; Text[100])
         {
             Caption = 'Description';
         }
-        field(3; "Duration"; Integer)
+        field(4; "Duration"; Integer)
         {
             Caption = 'Duration';
+        }
+    }
+    keys
+    {
+        key(PK; "Training ID")
+        {
+            Clustered = true;
         }
     }
 }
