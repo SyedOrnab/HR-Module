@@ -21,7 +21,7 @@ table 50002 "Employee Training"
         field(2; "Line No."; Integer)
         {
             DataClassification = ToBeClassified;
-            // AutoIncrement = true;
+            AutoIncrement = true;
 
         }
         field(3; "Employee Name"; Text[100])
@@ -83,12 +83,12 @@ table 50002 "Employee Training"
         {
             DataClassification = ToBeClassified;
         }
-        field(14; ID; Integer)
+/*         field(14; ID; Integer)
         {
             DataClassification = CustomerContent;
-            AutoIncrement = true;
+            // AutoIncrement = true;
             Editable = false;
-        }
+        } */
         field(15; "File Name"; Text[250])
         {
             DataClassification = CustomerContent;
@@ -132,7 +132,7 @@ table 50002 "Employee Training"
     }
     keys
     {
-        key(PK; "Employee No.","Line No.",ID)
+        key(PK; "Employee No.","Line No.")
         {
             Clustered = true;
         }

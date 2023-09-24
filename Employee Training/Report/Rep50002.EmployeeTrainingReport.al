@@ -3,58 +3,24 @@ report 50002 "Employee Training Report"
     ApplicationArea = All;
     Caption = 'Employee Training Report';
     UsageCategory = ReportsAndAnalysis;
+    DefaultLayout = Word;
+    WordLayout = 'Emp train.docx';
     dataset
     {
-        dataitem(EmployeeTraining; "Employee Training")
+        dataitem(Employee; Employee)
         {
-            column(EmployeeNo; "Employee No.")
+            column(No_; "No.") { }
+            column(FullName; FullName) { }
+
+            dataitem("Employee Training"; "Employee Training")
             {
-            }
-            column(EmployeeName; "Employee Name")
-            {
-            }
-            column(TrainingName; "Training Name")
-            {
-            }
-            column(Description; Description)
-            {
-            }
-            column(Duration; "Duration")
-            {
-            }
-            column(PlannedStartDate; "Planned Start Date")
-            {
-            }
-            column(PlannedEndDate; "Planned End Date")
-            {
-            }
-            column(Status; Status)
-            {
-            }
-            column(Total_Training_Target;"Total Training Target")
-            {
-            }
-            column(Total_Training_Completed;"Total Training Completed")
-            {
+                DataItemLink = "Employee No." = field("No.");
+                column(Training_Name; "Training Name") { }
             }
         }
     }
-    requestpage
-    {
-        layout
-        {
-            area(content)
-            {
-                group(GroupName)
-                {
-                }
-            }
-        }
-        actions
-        {
-            area(processing)
-            {
-            }
-        }
-    }
+    trigger OnPostReport()
+    begin
+        Message(Employee.FullName());
+    end;
 }
