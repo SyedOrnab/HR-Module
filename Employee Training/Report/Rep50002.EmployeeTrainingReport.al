@@ -11,7 +11,8 @@ report 50002 "Employee Training Report"
         {
             column(No_; "No.") { }
             column(FullName; FullName) { }
-
+            column(TotalTTarget;TotalTTarget){}
+            column(TotalTCompleted;TotalTCompleted){}
             dataitem("Employee Training"; "Employee Training")
             {
                 DataItemLink = "Employee No." = field("No.");
@@ -32,18 +33,36 @@ report 50002 "Employee Training Report"
                     TotalDuration := 0;
                     TotalCompleted:=0;
                 end;
-
+                
                 trigger OnAfterGetRecord()
+    
+                    
                 begin
+                    // TotalTCompleted:=0;
                     // if "Employee Training"."Employee No." <> '' then
                     //  Employee.SetRange("No.", "Employee Training"."Employee No.");
 
-                    TotalDuration += "Employee Training".Duration;
-                    "Total Training Target":=TotalDuration;
+                    // "Employee Training".SetRange( "Employee No.", Employee."No.");
 
-                    if "Employee Training".Status = Status::Completed then
+                    // repeat begin
+                    //     if "Employee Training".Status = Status::Completed then
+                    //         TotalTCompleted += "Employee Training".Duration;
+                    // end until  "Employee Training".Next() = 0;
+                    
+                    repeat begin
+                        TotalDuration += "Employee Training".Duration;
+                        "Total Training Target":=TotalDuration;
+                        TotalTTarget:= TotalDuration;
+
+                        if "Employee Training".Status = Status::Completed then
                         TotalCompleted += "Employee Training".Duration;
                         "Total Training Completed" := TotalCompleted;
+                        TotalTCompleted:= TotalCompleted;
+                    end until  "Employee Training".Next() = 0;
+                    
+                    // repeat begin
+                        
+                    // end until  "Employee Training".Next() = "Employee Training"."Total Training Completed";
                 end;
 
 
@@ -54,4 +73,6 @@ report 50002 "Employee Training Report"
     var
         TotalDuration: Integer;
         TotalCompleted : Integer;
+        TotalTTarget: Integer;
+        TotalTCompleted: Integer;
 }
