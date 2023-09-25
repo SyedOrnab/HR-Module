@@ -30,17 +30,28 @@ report 50002 "Employee Training Report"
                 trigger OnPreDataItem()
                 begin
                     TotalDuration := 0;
+                    TotalCompleted:=0;
                 end;
 
                 trigger OnAfterGetRecord()
                 begin
+                    // if "Employee Training"."Employee No." <> '' then
+                    //  Employee.SetRange("No.", "Employee Training"."Employee No.");
+
                     TotalDuration += "Employee Training".Duration;
                     "Total Training Target":=TotalDuration;
+
+                    if "Employee Training".Status = Status::Completed then
+                        TotalCompleted += "Employee Training".Duration;
+                        "Total Training Completed" := TotalCompleted;
                 end;
+
+
 
             }
         }
     }
     var
         TotalDuration: Integer;
+        TotalCompleted : Integer;
 }
