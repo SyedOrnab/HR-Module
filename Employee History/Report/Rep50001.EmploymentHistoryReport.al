@@ -12,6 +12,7 @@ report 50001 "Employment History Report"
     {
         dataitem(Employee; "Employee")
         {
+            PrintOnlyIfDetail = true;
             column(FullName; FullName)
             {
             }
@@ -41,8 +42,8 @@ report 50001 "Employment History Report"
                     // if EndingDate <> 0D then
                     //     "Employee Record T".SetRange("To Date", StartingDate, EndingDate);
 
-                     if "Employee Record T"."Emplyee No." <> '' then
-                     Employee.SetRange("No.", "Employee Record T"."Emplyee No.");
+                    //  if "Employee Record T"."Emplyee No." <> '' then
+                    //  Employee.SetRange("No.", "Employee Record T"."Emplyee No.");
                 end;
             }
         }
