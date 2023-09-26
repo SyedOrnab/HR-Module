@@ -19,8 +19,6 @@ report 50002 "Employee Training Report"
             {
                 DataItemTableView = where(Number = const(1));
 
-            
-
                 trigger OnAfterGetRecord()
                 var
                     EmpTrain: Record "Employee Training";
