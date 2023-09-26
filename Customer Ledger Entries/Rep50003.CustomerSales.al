@@ -15,17 +15,18 @@ report 50003 "CustomerSales"
             column(Sales__LCY_; "Sales (LCY)") { }
             column(TotalSales; TotalSales) { }
 
-            dataitem(Integer; Integer)
-            {
-                DataItemTableView = where(Number = const(1));
-            }
-
             trigger OnAfterGetRecord()
-            var
-                CustSales: Record "Cust. Ledger Entry";
-            begin
-                TotalSales += "Cust. Ledger Entry"."Sales (LCY)";
-            end;
+                var
+                    CustSales: Record "Cust. Ledger Entry";
+                begin
+                    TotalSales := 0;
+                    CustSales.SetRange("Customer No.","Cust. Ledger Entry"."Customer No.");
+                    if CustSales.FindSet() then
+                    repeat begin
+                        TotalSales += CustSales."Sales (LCY)";
+                    end until CustSales.Next() = 0;
+                    CustSales.FindFirst();
+                end;
 
             trigger OnPreDataItem()
             begin
