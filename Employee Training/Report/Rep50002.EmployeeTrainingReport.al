@@ -9,30 +9,33 @@ report 50002 "Employee Training Report"
     {
         dataitem(Employee; Employee)
         {
+            // PrintOnlyIfDetail = true;  //Specifies whether to print data in a report for the parent data item when the child data item does not generate any output.
             column(No_; "No.") { }
             column(FullName; FullName) { }
             column(TotalTTarget; TotalTTarget) { }
             column(TotalTCompleted; TotalTCompleted) { }
 
-            dataitem(Integer;Integer)
+            dataitem(Integer; Integer)
             {
                 DataItemTableView = where(Number = const(1));
-                
+
+            
+
                 trigger OnAfterGetRecord()
                 var
-                    EmpTrain : Record "Employee Training";
+                    EmpTrain: Record "Employee Training";
                 begin
-                    EmpTrain.SetRange("Employee No.",Employee."No.");
-                    if Emptrain.FindFirst() then
-                    begin
+
+                    EmpTrain.SetRange("Employee No.", Employee."No.");
+                    if Emptrain.FindFirst() then begin
                         repeat begin
                             TotalTTarget += EmpTrain.Duration;
                             if EmpTrain.Status = EmpTrain.Status::Completed then
                                 TotalTCompleted += EmpTrain.Duration;
                         end until EmpTrain.Next() = 0;
+
                     end;
                 end;
-
             }
             dataitem("Employee Training"; "Employee Training")
             {
@@ -48,16 +51,20 @@ report 50002 "Employee Training Report"
                 column(Total_Training_Target; "Total Training Target") { }
                 column(Total_Training_Completed; "Total Training Completed") { }
             }
-
-
             trigger OnAfterGetRecord()
+             var
+                emptrain : Record "Employee Training";
             begin
                 TotalTTarget := 0;
-                TotalTTarget:=TotalTTarget;
+                TotalTTarget := TotalTTarget;
                 TotalTCompleted := 0;
-                TotalTCompleted:=TotalTCompleted;
-            end;
+                TotalTCompleted := TotalTCompleted;
 
+
+                emptrain.SetRange("Employee No.", Employee."No.");  //Employee No. data inserted in local var emptrain.
+                if not emptrain.FindFirst() then        //
+                CurrReport.Skip;
+            end;
         }
     }
     var
