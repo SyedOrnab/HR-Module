@@ -7,32 +7,39 @@ report 50003 "CustomerSales"
     UsageCategory = ReportsAndAnalysis;
     dataset
     {
-        dataitem("Cust. Ledger Entry"; "Cust. Ledger Entry")
+        dataitem(Customer; Customer)
         {
-            column(Posting_Date; "Posting Date") { }
-            column(Customer_No_; "Customer No.") { }
-            column(Customer_Name; "Customer Name") { }
-            column(Sales__LCY_; "Sales (LCY)") { }
-            column(TotalSales; TotalSales) { }
+            PrintOnlyIfDetail = true;
+            column(No_; "No.") { }
+            column(Name; Name) { }
 
-            trigger OnAfterGetRecord()
+            dataitem("Cust. Ledger Entry"; "Cust. Ledger Entry")
+            {
+                DataItemLink = "Customer No." = field("No.");
+                column(Posting_Date; DateFor) { }
+                column(Sales__LCY_; "Sales (LCY)") { }
+                column(TotalSales; TotalSales) { }
+
+                trigger OnAfterGetRecord()
                 var
                     CustSales: Record "Cust. Ledger Entry";
                 begin
                     TotalSales := 0;
-                    CustSales.SetRange("Customer No.","Cust. Ledger Entry"."Customer No.");
+                    CustSales.SetRange("Customer No.", "Cust. Ledger Entry"."Customer No.");
                     if CustSales.FindSet() then
-                    repeat begin
-                        TotalSales += CustSales."Sales (LCY)";
-                    end until CustSales.Next() = 0;
-                    CustSales.FindFirst();
+                        repeat begin
+                            TotalSales += CustSales."Sales (LCY)";
+                        end until CustSales.Next() = 0;
+                    
+                    DateFor := Format("Cust. Ledger Entry"."Posting Date", 0, '<Standard Format,4>')
                 end;
 
-            trigger OnPreDataItem()
-            begin
-                if StartingDate <> 0D then
-                    "Cust. Ledger Entry".SetRange("Posting Date", StartingDate, EndingDate);
-            end;
+                trigger OnPreDataItem()
+                begin
+                    if StartingDate <> 0D then
+                        "Cust. Ledger Entry".SetRange("Posting Date", StartingDate, EndingDate);
+                end;
+            }
         }
     }
     requestpage
@@ -66,4 +73,5 @@ report 50003 "CustomerSales"
         StartingDate: Date;
         EndingDate: Date;
         TotalSales: Decimal;
+        DateFor : Text[20];
 }
