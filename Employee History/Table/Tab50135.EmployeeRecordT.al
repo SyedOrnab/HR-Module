@@ -52,8 +52,8 @@ table 50001 "Employee Record T"
         field(8; Status; Option)
         {
             DataClassification = ToBeClassified;
-            OptionMembers = ,Active,"In Active";
-            OptionCaption = ',Active,In Active';
+            OptionMembers = ,Active,Inactive;
+            OptionCaption = ',Active,Inactive';
             Editable = true;
             trigger OnValidate()
             var
@@ -61,7 +61,7 @@ table 50001 "Employee Record T"
                 checkStatus: Boolean;
                 Emp: Record Employee;
             begin
-                if (Rec.Status = Rec.Status::"In Active") AND (xRec.Status = xRec.Status::Active) then begin
+                if (Rec.Status = Rec.Status::Inactive) AND (xRec.Status = xRec.Status::Active) then begin
                     exit;
                 end;
 
