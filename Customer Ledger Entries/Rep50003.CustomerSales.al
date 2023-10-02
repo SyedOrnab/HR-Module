@@ -28,7 +28,7 @@ report 50003 "CustomerSales"
                     CustSales.SetRange("Customer No.", "Cust. Ledger Entry"."Customer No.");
                     if CustSales.FindSet() then
                         repeat begin
-                            if CustSales."Document Type" = "Document Type"::Invoice then
+                            if CustSales."Document Type" = "Document Type"::Invoice then //
                                 TotalSales += CustSales."Sales (LCY)";
                         end until CustSales.Next() = 0;
 
