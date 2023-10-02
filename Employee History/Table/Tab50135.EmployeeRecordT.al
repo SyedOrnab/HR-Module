@@ -73,9 +73,11 @@ table 50001 "Employee Record T"
                 // end;
                 repeat
                     if recEmployee.Status = Status::Active then begin
+                        recEmployee.Status := Status::Inactive;
+                        recEmployee.Modify(true);
                         // checkStatus := true;
                         // break;
-                        Error('You can select "Active" status only once. Setting to "In Active."');
+                        // Error('You can select "Active" status only once. Setting to "In Active."');
                     end;
                 until recEmployee.Next() = 0;
                 // if checkStatus then begin
