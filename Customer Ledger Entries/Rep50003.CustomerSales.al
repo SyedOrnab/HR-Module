@@ -28,9 +28,10 @@ report 50003 "CustomerSales"
                     CustSales.SetRange("Customer No.", "Cust. Ledger Entry"."Customer No.");
                     if CustSales.FindSet() then
                         repeat begin
-                            TotalSales += CustSales."Sales (LCY)";
+                            if CustSales."Document Type" = "Document Type"::Invoice then
+                                TotalSales += CustSales."Sales (LCY)";
                         end until CustSales.Next() = 0;
-                    
+
                     DateFor := Format("Cust. Ledger Entry"."Posting Date", 0, '<Standard Format,4>')
                 end;
 
@@ -73,5 +74,5 @@ report 50003 "CustomerSales"
         StartingDate: Date;
         EndingDate: Date;
         TotalSales: Decimal;
-        DateFor : Text[20];
+        DateFor: Text[20];
 }

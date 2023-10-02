@@ -2,12 +2,16 @@ pageextension 50003 "Employee History Report" extends "Employee List"
 {
     actions
     {
-        addafter("E&mployee")
+        addfirst("E&mployee")
         {
             action("Employee History Print")
             {
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
                 ApplicationArea = Basic, Suite;
-                Caption = 'Employee History Print';
+                Caption = 'E&mployee History Print';
                 Ellipsis = true;
                 Image = Print;
                 ToolTip = 'Print an order confirmation. A report request window opens where you can specify what to include on the print-out.';
@@ -25,6 +29,10 @@ pageextension 50003 "Employee History Report" extends "Employee List"
             }
             action("Employee Training Print")
             {
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
                 ApplicationArea = Basic, Suite;
                 Caption = 'Employee Training Print';
                 Ellipsis = true;
