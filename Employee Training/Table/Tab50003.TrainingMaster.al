@@ -1,13 +1,16 @@
 table 50003 "Training Master"
 {
     Caption = 'Training Master';
-    DataClassification = ToBeClassified;
+    DrillDownPageId = "Training Master Page";
+    LookupPageId = "Training Master Page";
+    // DataClassification = ToBeClassified;
     
     fields
     {
         field(1; "Training Name"; Text[50])
         {
             Caption = 'Training Name';
+            NotBlank = true;        // Mandatory field - without this fields, other fields will not be inserted
         }
         field(2; Description; Text[100])
         {
@@ -17,17 +20,5 @@ table 50003 "Training Master"
         {
             Caption = 'Duration';
         }
-        // field(4; "Training ID"; Code[20])
-        // {
-        //     Caption = 'Training ID';
-        //     DataClassification = ToBeClassified;
-        // }
     }
-    // keys
-    // {
-    //     key(PK; "Training ID")
-    //     {
-    //         Clustered = true;
-    //     }
-    // }
 }

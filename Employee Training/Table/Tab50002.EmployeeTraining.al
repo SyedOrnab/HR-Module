@@ -1,7 +1,10 @@
 table 50002 "Employee Training"
 {
     Caption = 'Employee Training';
-    DataClassification = ToBeClassified;
+    DataCaptionFields = "Training Name";
+    DrillDownPageId = "Employee Training Page";
+    LookupPageId = "Employee Training Page";
+    // DataClassification = ToBeClassified;
     
     fields
     {

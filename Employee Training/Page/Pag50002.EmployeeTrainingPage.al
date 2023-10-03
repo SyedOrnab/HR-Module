@@ -1,6 +1,5 @@
 page 50002 "Employee Training Page"
 {
-    ApplicationArea = All;
     Caption = 'Employee Training Page';
     PageType = List;
     SourceTable = "Employee Training";
@@ -15,32 +14,39 @@ page 50002 "Employee Training Page"
             {
                 field("Employee No."; Rec."Employee No.")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     Visible = false;
                 }
                 field("Line No."; Rec."Line No.")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Line No. field.';
                     Visible = false;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Employee Name field.';
                 }
                 field("Training Name"; Rec."Training Name")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Training Name field.';
                 }
                 field(Description; Rec.Description)
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Description field.';
                 }
                 field("Duration"; Rec."Duration")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Duration field.';
                 }
                 field("Planned Start Date"; Rec."Planned Start Date")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Planned Start Date field.';
                     trigger OnValidate()
                     begin
@@ -49,47 +55,40 @@ page 50002 "Employee Training Page"
                 }
                 field("Planned End Date"; Rec."Planned End Date")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Planned End Date field.';
                 }
                 field("Actual Start Date"; Rec."Actual Start Date")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Actual Start Date field.';
                 }
                 field("Actual End Date"; Rec."Actual End Date")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Actual End Date field.';
                 }
                 field(Status; Rec.Status)
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Status field.';
                 }
                 field("Certification No"; Rec."Certification No")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Certification No field.';
                 }
                 field(Certificate; Rec.Certificate)
                 {
-                    ApplicationArea = All;
+                    ApplicationArea = BasicHR;
+                    // ApplicationArea = All;
                     Editable = false;
                     Visible = false;
                     ToolTip = 'Specifies the value of the Certificate field.';
-                    /*trigger OnDrillDown()
-                    var
-                        Selection: Integer;
-                    begin
-                        if not FileUploaded then
-                        begin
-                            InitiateUploadFile();
-                            FileUploaded := true;
-                        end
-                        else
-                        begin
-                            DownloadFile();
-                        end;
-                    end;*/
                 }
                 field("File Name"; Rec."File Name")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the File Name field.';
                     // Visible = false;
                     Caption = 'Certificate File Name';
@@ -110,16 +109,19 @@ page 50002 "Employee Training Page"
                 }
                 field("File Extension"; Rec."File Extension")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the File Extension field.';
                     Visible = false;
                 }
                 field("Attached By"; Rec."Attached By")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Attached By field.';
                     Visible = false;
                 }
                 field("Attached Date";Rec."Attached Date")
                 {
+                    ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Attached Date field.';
                     Visible = false;
                 }
@@ -130,23 +132,6 @@ page 50002 "Employee Training Page"
     {
         area(Processing)
         {
-            /*action("Attach Certificate old")
-            {
-                ApplicationArea = All;
-                Caption = 'Attachments';
-                Image = Attach;
-                ToolTip = 'Add a file as an attachment. You can attach images as well as documents.';
-
-                trigger OnAction()
-                var
-                    DocumentAttachmentDetails: Page "Document Attachment Details";
-                    RecRef: RecordRef;
-                begin
-                    RecRef.GetTable(Rec);
-                    DocumentAttachmentDetails.OpenForRecRef(RecRef);
-                    DocumentAttachmentDetails.RunModal();
-                end;
-            }*/
             action("Attach Certificate")
             {
                 ApplicationArea = All;
