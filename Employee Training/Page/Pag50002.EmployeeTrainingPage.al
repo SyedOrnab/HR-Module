@@ -121,6 +121,7 @@ page 50002 "Employee Training Page"
                 }
                 field("Attached Date";Rec."Attached Date")
                 {
+                    Caption = 'Attached Date';
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Attached Date field.';
                 }
