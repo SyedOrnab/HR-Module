@@ -113,7 +113,7 @@ table 50002 "Employee Training"
         {
             DataClassification = CustomerContent;
             Editable = false;
-            Caption = 'Attached On';
+            Caption = 'Attached Date';
         }
         field(19; "Media Storage"; Media)
         {
