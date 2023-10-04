@@ -93,18 +93,15 @@ page 50002 "Employee Training Page"
                     // Visible = false;
                     Caption = 'Certificate File Name';
                     trigger OnDrillDown()
-                    var
-                        FileUploaded: Boolean;
                     begin
-                        if Rec."File Name" = 'Attach File(s)...' then
-                        begin
-                            AttachFile();
-                            // FileUploaded := true;
-                        end
-                        else
-                        begin
-                            DownloadFile();
-                        end;
+                        if Rec."File Name" <> SelectFileTxt then begin
+                            if Confirm('Do you want to download the file?') then begin
+                                DownloadFile();
+                            end;
+                        end else
+                            if Confirm('Do you want to attach a file?') then begin
+                                AttachFile();
+                            end;
                     end;
                 }
                 field("File Extension"; Rec."File Extension")
@@ -119,7 +116,7 @@ page 50002 "Employee Training Page"
                     ToolTip = 'Specifies the value of the Attached By field.';
                     Visible = false;
                 }
-                field("Attached Date";Rec."Attached Date")
+                field("Attached Date"; Rec."Attached Date")
                 {
                     Caption = 'Attached Date';
                     ApplicationArea = BasicHR;
@@ -173,6 +170,7 @@ page 50002 "Employee Training Page"
     begin
         Rec."File Name" := SelectFileTxt;
     end;
+
     var
         myInt: Integer;
         DownloadEnabled: Boolean;
@@ -202,13 +200,14 @@ page 50002 "Employee Training Page"
         FileMng: Codeunit "File Management";
         TempBlob: Codeunit "Temp Blob";
     begin
-        Filename := (Rec."File Name"+'.'+Rec."File Extension");
+        Filename := (Rec."File Name" + '.' + Rec."File Extension");
         Rec.CalcFields(Certificate);
         Rec.Certificate.CreateInStream(InStr);
         TempBlob.CreateOutStream(OutStr);
         CopyStream(OutStr, InStr);
         FileMng.BLOBExport(TempBlob, Filename, true);
     end;
+
     local procedure AttachFile()
     var
         FileMng: Codeunit "File Management";
@@ -219,7 +218,7 @@ page 50002 "Employee Training Page"
         FilePath: Text;
     begin
         if UploadIntoStream(SelectFileText1, '', '', FilePath, InStr) then
-        Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
+            Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
     end;
 
 }
