@@ -28,6 +28,7 @@ page 50002 "Employee Training Page"
                 {
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Employee Name field.';
+                    Editable = false;
                 }
                 field("Training Name"; Rec."Training Name")
                 {
