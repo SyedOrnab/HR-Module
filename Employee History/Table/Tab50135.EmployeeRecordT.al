@@ -44,10 +44,34 @@ table 50001 "Employee Record T"
         field(6; "From Date"; Date)
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                recEmployee: Record "Employee Record T";
+            begin
+                recEmployee.FindFirst();
+                repeat
+                    if Rec."From Date" = recEmployee."From Date" then begin
+                        Error('From Date cannot be same.');
+                    end until recEmployee.Next() = 0;
+            end;
         }
         field(7; "To Date"; Date)
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                recEmployee: Record "Employee Record T";
+            begin
+                if (Rec."From Date" = Rec."To Date") then begin
+                    Error('From Date and To Date cannot be same.');
+                end;
+                if Rec."To Date" = 0D then begin
+                    Error('To Date cannot be blank.');
+                end;
+                if (Rec."From Date" > Rec."To Date") then begin
+                    Error('From Date cannot be greater than To Date.');
+                end;
+            end;
         }
         field(8; Status; Option)
         {
@@ -103,5 +127,5 @@ table 50001 "Employee Record T"
         }
     }
     var
-        
+
 }
