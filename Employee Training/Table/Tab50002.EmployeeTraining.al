@@ -48,11 +48,13 @@ table 50002 "Employee Training"
         field(5; Description; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
 
         }
         field(6; Duration; Integer)
         {
             DataClassification = ToBeClassified;
+            Editable = false;
             // FieldClass = FlowFilter;
             // TableRelation = "Training Master"."Training ID";
         }
