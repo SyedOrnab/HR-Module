@@ -21,7 +21,6 @@ table 50001 "Employee Record T"
         field(2; "Line No."; Integer)
         {
             DataClassification = ToBeClassified;
-            // AutoIncrement = true;
 
         }
         field(3; "Emplyee Name"; Text[100])
@@ -59,10 +58,6 @@ table 50001 "Employee Record T"
                         end;
                     until recEmployee.Next() = 0;
                 end;
-                // repeat
-                //     if Rec."From Date" = recEmployee."From Date" then begin
-                //         Error('From Date cannot be same.');
-                //     end until recEmployee.Next() = 0;
             end;
         }
         field(7; "To Date"; Date)
@@ -98,23 +93,12 @@ table 50001 "Employee Record T"
 
                 checkStatus := false;
                 recEmployee.SetRange("Emplyee No.", Rec."Emplyee No.");
-                // recEmployee.SetRange(Status, recEmployee.Status::Active);
-                // if recEmployee.FindSet() then begin
-                //     Error('You can select "Active" status only once. Setting to "In Active."');
-                // end;
                 repeat
                     if recEmployee.Status = Status::Active then begin
                         recEmployee.Status := Status::Inactive;
                         recEmployee.Modify(true);
-                        // checkStatus := true;
-                        // break;
-                        // Error('You can select "Active" status only once. Setting to "In Active."');
                     end;
                 until recEmployee.Next() = 0;
-                // if checkStatus then begin
-                //     Message('You can select "Active" status only once. Setting to "In Active."');
-                //     Status := Status::"In Active";
-                // end;
 
                 recEmployee.Get("Emplyee No.", "Line No.");
                 if Emp.GET("Emplyee No.") then begin
