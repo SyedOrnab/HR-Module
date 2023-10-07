@@ -48,11 +48,21 @@ table 50001 "Employee Record T"
             var
                 recEmployee: Record "Employee Record T";
             begin
-                recEmployee.FindFirst();
-                repeat
-                    if Rec."From Date" = recEmployee."From Date" then begin
-                        Error('From Date cannot be same.');
-                    end until recEmployee.Next() = 0;
+                recEmployee.SetRange("Emplyee No.", Rec."Emplyee No.");
+                if recEmployee.FindSet() then begin
+                    repeat
+                        if Rec."From Date" = recEmployee."From Date" then begin
+                            Error('From Date cannot be same.');
+                        end;
+                        if (Rec."From Date" < recEmployee."From Date") then begin
+                            Error('From Date must be not be less than previous record.');
+                        end;
+                    until recEmployee.Next() = 0;
+                end;
+                // repeat
+                //     if Rec."From Date" = recEmployee."From Date" then begin
+                //         Error('From Date cannot be same.');
+                //     end until recEmployee.Next() = 0;
             end;
         }
         field(7; "To Date"; Date)
@@ -64,9 +74,6 @@ table 50001 "Employee Record T"
             begin
                 if (Rec."From Date" = Rec."To Date") then begin
                     Error('From Date and To Date cannot be same.');
-                end;
-                if Rec."To Date" = 0D then begin
-                    Error('To Date cannot be blank.');
                 end;
                 if (Rec."From Date" > Rec."To Date") then begin
                     Error('From Date cannot be greater than To Date.');
