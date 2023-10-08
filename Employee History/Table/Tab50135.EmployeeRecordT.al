@@ -53,6 +53,9 @@ table 50001 "Employee Record T"
                         if Rec."From Date" = recEmployee."From Date" then begin
                             Error('From Date cannot be same.');
                         end;
+                        if Rec."From Date" < recEmployee."To Date" then begin
+                            Error('From Date must be greater than previous To');
+                        end;
                         if (Rec."From Date" < recEmployee."From Date") then begin
                             Error('From Date must be not be less than previous record.');
                         end;
