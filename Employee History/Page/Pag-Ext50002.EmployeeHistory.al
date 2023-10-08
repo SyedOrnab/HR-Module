@@ -2,26 +2,40 @@ pageextension 50002 "Employee History" extends "Employee Card"
 {
     actions
     {
-        addafter(AlternativeAddresses)
+        addafter("E&mployee")
         {
-            action(ShowEmployeeHistory)
+            group("HR-module")
             {
-                Caption = 'Employee History';
-                Image = History;
-                ApplicationArea = All;
-                RunObject = Page EmployeeRecordP;
-                RunPageLink = "Emplyee No." = FIELD("No.");
-                ToolTip = 'View Employee History';
+                Image = HumanResources;
+                action(ShowEmployeeHistory)
+                {
+                    Caption = 'Employee History';
+                    Image = History;
+                    ApplicationArea = All;
+                    RunObject = Page EmployeeRecordP;
+                    RunPageLink = "Emplyee No." = FIELD("No.");
+                    ToolTip = 'View Employee History';
+                }
+                action(ShowEmployeeTraining)
+                {
+                    Caption = 'Employee Training';
+                    Image = UserCertificate;
+                    ApplicationArea = All;
+                    RunObject = Page "Employee Training Page";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    ToolTip = 'View Employee Training';
+                }
+                action(ShowEmployeeLeave)
+                {
+                    Caption = 'Employee Leave';
+                    Image = Absence;
+                    ApplicationArea = All;
+                    RunObject = Page "Employee Leave Page";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    ToolTip = 'View Employee Leave';
+                }
             }
-            action(ShowEmployeeTraining)
-            {
-                Caption = 'Employee Training';
-                Image = UserCertificate;
-                ApplicationArea = All;
-                RunObject = Page "Employee Training Page";
-                RunPageLink = "Employee No." = FIELD("No.");
-                ToolTip = 'View Employee Training';
-            }
+
         }
     }
 }
