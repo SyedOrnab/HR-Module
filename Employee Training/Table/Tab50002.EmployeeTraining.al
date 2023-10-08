@@ -87,6 +87,8 @@ table 50002 "Employee Training"
         field(13; "Certificate"; Blob)
         {
             DataClassification = ToBeClassified;
+            Subtype = Bitmap;
+            Compressed = true;
         }
 /*         field(14; ID; Integer)
         {
