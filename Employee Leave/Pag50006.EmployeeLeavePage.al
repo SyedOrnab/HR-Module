@@ -40,7 +40,41 @@ page 50006 "Employee Leave Page"
                     ToolTip = 'Specifies the value of the Total Leave field.';
                     Visible = false;
                 }
+                field("Unit of Measure Code";Rec."Unit of Measure Code")
+                {
+                    ToolTip = 'Specifies the value of the Unit of Measure Code field.';
+                }
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action(Calculate)
+            {
+                ApplicationArea = All;
+                Caption = 'Calculate';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Calculate;
+
+                trigger OnAction()
+                begin
+                    // CalculateRemainingLeave();
+                end;
+                // OnAction = Calculate;
+            }
+        }
+    }
+    // local procedure CalculateRemainingLeave()
+    // var 
+    //     EmployeeLeave: Record "Employee Leave";
+    //     Absence: Record "Employee Absence";
+    // begin
+    //     EmployeeLeave.SetRange("Employee No.",Rec."Employee No.");
+    //     if EmployeeLeave.FindSet() then
+    // end;
+    
 }

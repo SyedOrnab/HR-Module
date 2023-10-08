@@ -19,6 +19,7 @@ table 50004 "Employee Leave"
         {
             Caption = 'Leave Type';
             TableRelation = "Cause of Absence".Code;
+            // FieldClass = FlowField;
         }
         field(4; "Leave Quantity"; Integer)
         {
@@ -32,6 +33,11 @@ table 50004 "Employee Leave"
         field(6; "Total Leave"; Date)
         {
             Caption = 'Leave Start Date';
+        }
+        field(7; "Unit of Measure Code"; Code[10])
+        {
+            Caption = 'Unit of Measure Code';
+            TableRelation = "Human Resource Unit of Measure".Code;
         }
     }
     keys
