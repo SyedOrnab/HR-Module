@@ -89,24 +89,6 @@ page 50006 "Employee Leave Page"
                 EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Total;
                 EmployeeLeave.Modify();
             end until EmployeeLeave.Next() = 0;
-
-        // EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
-        // if EmployeeLeave.FindSet() then begin
-        //         EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Total;
-        //         EmployeeLeave.Modify();
-        // end;
-
-        // EmployeeLeave.SetRange("Employee No.",Rec."Employee No.");
-        // if EmployeeLeave.FindSet() then
-        //     repeat
-        //         Absence.SetRange("Employee No.",Rec."Employee No.");
-        //         if Absence.FindSet() then
-        //             Absence.CalcSums(Quantity);
-        //             repeat
-        //                     EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Absence.Quantity;
-        //                     EmployeeLeave.Modify()
-        //             until Absence.Next() = 0;
-        //     until EmployeeLeave.Next() = 0;
     end;
 
 }
