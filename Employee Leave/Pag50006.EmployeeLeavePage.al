@@ -81,7 +81,7 @@ page 50006 "Employee Leave Page"
                         Total += Absence.Quantity;
                     end until Absence.Next() = 0;
             end until Absence.Next() = 0;
-        Message(Absence."Employee No." + ' you total leave: %1', Total);
+        Message(Absence."Employee No." + ' total leave: %1', Total);
         
         EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
         if EmployeeLeave.FindSet() then
