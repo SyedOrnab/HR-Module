@@ -7,6 +7,15 @@ pageextension 50002 "Employee History" extends "Employee Card"
             group("HR-module")
             {
                 Image = HumanResources;
+                action(ShowLeaveApplication)
+                {
+                    Caption = 'Leave Application';
+                    Image = AbsenceCategories;
+                    ApplicationArea = All;
+                    RunObject = Page "Leave Application Card";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    ToolTip = 'View Leave Application';
+                }
                 action(ShowEmployeeHistory)
                 {
                     Caption = 'Employee History';
