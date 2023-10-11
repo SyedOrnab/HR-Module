@@ -73,21 +73,22 @@ page 50006 "Employee Leave Page"
         Absence: Record "Employee Absence";
         Total: Integer;
     begin
-        Absence.SetRange("Employee No.", Rec."Employee No.");
-        if Absence.FindSet() then
-            repeat begin
-                if Absence."Cause of Absence Code" = 'ANNUAL' then
-                    repeat begin
-                        Total += Absence.Quantity;
-                    end until Absence.Next() = 0;
-            end until Absence.Next() = 0;
-        Message(Absence."Employee No." + ' total leave: %1', Total);
-        
         EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
         if EmployeeLeave.FindSet() then
             repeat begin
+                Absence.SetRange("Employee No.", EmployeeLeave."Employee No.");
+                Absence.SetRange("Cause of Absence Code", EmployeeLeave."Leave Type");
+                if Absence.FindSet() then
+                    repeat begin
+                        begin
+                            repeat begin
+                                Total += Absence.Quantity;
+                            end until Absence.Next() = 0;
+                        end;
+                    end until Absence.Next() = 0;
                 EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Total;
                 EmployeeLeave.Modify();
+                Total :=0;
             end until EmployeeLeave.Next() = 0;
     end;
 
