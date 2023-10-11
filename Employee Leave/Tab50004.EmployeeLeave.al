@@ -19,6 +19,14 @@ table 50004 "Employee Leave"
         {
             Caption = 'Leave Type';
             TableRelation = "Cause of Absence".Code;
+
+            trigger OnValidate()
+            var
+                EmployeeLeave : Record "Employee Leave";
+            begin
+                if "Leave Type" = 'ANNUAL' then
+                    "Leave Quantity" := 10;
+            end;
             // FieldClass = FlowField;
         }
         field(4; "Leave Quantity"; Integer)
