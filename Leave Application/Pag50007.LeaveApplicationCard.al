@@ -1,6 +1,6 @@
 page 50007 "Leave Application Card"
 {
-    ApplicationArea = All;
+    // ApplicationArea = All;
     Caption = 'Leave Application';
     PageType = Card;
     SourceTable = "Leave Application";
@@ -56,6 +56,7 @@ page 50007 "Leave Application Card"
             }
         }
     }
+
     actions
     {
         area(processing)
@@ -94,23 +95,34 @@ page 50007 "Leave Application Card"
         LeaveApplication: Record "Leave Application";
         Absence: Record "Employee Absence";
         Total: Integer;
+        "Current Year": Integer;
+        CurrRemaining: Integer;
     begin
+        "Current Year" := Date2DMY(WorkDate, 3);
         LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
-        if LeaveApplication.FindSet() then
+        LeaveApplication.FindSet();
+        LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
+        LeaveApplication.Modify();
+        // repeat begin
+        Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
+        Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
+        // Absence.SetFilter("From Date", '%1..%2', DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
+        Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
+        if Absence.FindSet() then
             repeat begin
-                Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
-                Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-                if Absence.FindSet() then
+                begin
                     repeat begin
-                        begin
-                            repeat begin
-                                Total += Absence.Quantity;
-                            end until Absence.Next() = 0;
-                        end;
+                        Total += Absence.Quantity;
                     end until Absence.Next() = 0;
-                LeaveApplication."Leave Remaining" := LeaveApplication."Leave Quantity" - Total;
-                LeaveApplication.Modify();
-                Total := 0;
-            end until LeaveApplication.Next() = 0;
+                end;
+            end until Absence.Next() = 0;
+        //     CurrRemaining := Total - LeaveApplication."Leave Remaining";
+        //     if CurrRemaining <= 0 then
+        //     Error('Leave Quantity is greater than Leave Remaining. Current Leave Remaining is %1', CurrRemaining);
+        // LeaveApplication."Leave Remaining" := CurrRemaining - LeaveApplication."Leave Quantity";
+        LeaveApplication."Leave Remaining" :=  Total - LeaveApplication."Leave Quantity";
+        LeaveApplication.Modify();
+        // Total := 0;
+        // end until LeaveApplication.Next() = 0;
     end;
 }

@@ -24,7 +24,13 @@ table 50005 "Leave Application"
         field(3; "From Date"; Date)
         {
             Caption = 'From Date';
-            
+            // trigger OnValidate()
+            // var
+            //     LeaveApplication: Record "Leave Application";
+            // begin
+            //     LeaveApplication.Get("From Date");
+            //     "Leave Quantity" := LeaveApplication."From Date" - LeaveApplication."To Date";
+            // end;
         }
         field(4; "To Date"; Date)
         {
@@ -37,7 +43,7 @@ table 50005 "Leave Application"
 
             trigger OnValidate()
             var
-                EmployeeLeave : Record "Employee Leave";
+                EmployeeLeave: Record "Employee Leave";
             begin
                 CauseOfAbsence.Get("Leave Type");
                 Description := CauseOfAbsence.Description;
