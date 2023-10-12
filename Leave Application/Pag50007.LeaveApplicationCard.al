@@ -32,6 +32,10 @@ page 50007 "Leave Application Card"
                 field("Leave Type"; Rec."Leave Type")
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
+                    trigger OnValidate()
+                    begin
+                        CalculateLeaveRemaining();
+                    end;
                 }
                 field(Description; Rec.Description)
                 {
@@ -103,7 +107,6 @@ page 50007 "Leave Application Card"
         LeaveApplication.FindSet();
         LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
         LeaveApplication.Modify();
-        // repeat begin
         Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
         Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
         // Absence.SetFilter("From Date", '%1..%2', DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
@@ -122,7 +125,5 @@ page 50007 "Leave Application Card"
         // LeaveApplication."Leave Remaining" := CurrRemaining - LeaveApplication."Leave Quantity";
         LeaveApplication."Leave Remaining" :=  Total - LeaveApplication."Leave Quantity";
         LeaveApplication.Modify();
-        // Total := 0;
-        // end until LeaveApplication.Next() = 0;
     end;
 }
