@@ -54,6 +54,10 @@ page 50008 "Leave Application Page"
                 {
                     ToolTip = 'Specifies the value of the Comment field.';
                 }
+                field("Status"; Rec.Status)
+                {
+                    ToolTip = 'Specifies the value of the Status field.';
+                }
             }
         }
     }

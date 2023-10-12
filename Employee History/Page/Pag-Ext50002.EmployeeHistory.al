@@ -12,7 +12,7 @@ pageextension 50002 "Employee History" extends "Employee Card"
                     Caption = 'Leave Application';
                     Image = AbsenceCategories;
                     ApplicationArea = All;
-                    RunObject = Page "Leave Application Card";
+                    RunObject = Page "Leave Application Page";
                     RunPageLink = "Employee No." = FIELD("No.");
                     ToolTip = 'View Leave Application';
                 }

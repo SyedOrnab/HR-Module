@@ -19,29 +19,14 @@ table 50005 "Leave Application"
         field(2; "Entry No."; Integer)
         {
             Caption = 'Entry No.';
-            // AutoIncrement = true;
+            AutoIncrement = true;
         }
         field(3; "From Date"; Date)
         {
             Caption = 'From Date';
             trigger OnValidate()
-            var
-                leaveapp: Record "Leave Application";
             begin
-                leaveapp.SetRange("Employee No.", Rec."Employee No.");
-                if leaveapp.FindSet() then begin
-                    repeat
-                        if Rec."From Date" = leaveapp."From Date" then begin
-                            Error('From Date cannot be same.');
-                        end;
-                        if Rec."From Date" < leaveapp."To Date" then begin
-                            Error('From Date must be greater than previous To');
-                        end;
-                        if (Rec."From Date" < leaveapp."From Date") then begin
-                            Error('From Date must be not be less than previous record.');
-                        end;
-                    until leaveapp.Next() = 0;
-                end;
+                DateValidation();
             end;
         }
         field(4; "To Date"; Date)
@@ -49,19 +34,13 @@ table 50005 "Leave Application"
             Caption = 'To Date ';
             trigger OnValidate()
             begin
-                if (Rec."From Date" = Rec."To Date") then begin
-                    Error('From Date and To Date cannot be same.');
-                end;
-                if (Rec."From Date" > Rec."To Date") then begin
-                    Error('From Date cannot be greater than To Date.');
-                end;
+                DateValidation();
             end;
         }
         field(5; "Leave Type"; Code[10])
         {
             Caption = 'Leave Type';
             TableRelation = "Cause of Absence";
-
             trigger OnValidate()
             var
                 EmployeeLeave: Record "Employee Leave";
@@ -69,6 +48,7 @@ table 50005 "Leave Application"
                 CauseOfAbsence.Get("Leave Type");
                 Description := CauseOfAbsence.Description;
                 Validate("Unit of Measure Code", CauseOfAbsence."Unit of Measure Code");
+                CalculateLeaveRemaining();
             end;
         }
         field(6; Description; Text[100])
@@ -120,6 +100,12 @@ table 50005 "Leave Application"
             Editable = false;
             InitValue = 1;
         }
+        field(13; Status; Option)
+        {
+            Caption = 'Status';
+            OptionMembers =  ,Open,Pending,Approved;
+            OptionCaption = ',Open,Pending,Approved';
+        }
     }
     keys
     {
@@ -128,16 +114,16 @@ table 50005 "Leave Application"
             Clustered = true;
         }
     }
-    trigger OnInsert()
-    begin
-        EmployeeAbsence.SetCurrentKey("Entry No.");
-        if EmployeeAbsence.FindLast() then
-            "Entry No." := EmployeeAbsence."Entry No." + 1
-        else begin
-            CheckBaseUOM();
-            "Entry No." := 1;
-        end;
-    end;
+    // trigger OnInsert()
+    // begin
+    //     EmployeeAbsence.SetCurrentKey("Entry No.");
+    //     if EmployeeAbsence.FindLast() then
+    //         "Entry No." := EmployeeAbsence."Entry No." + 1
+    //     else begin
+    //         CheckBaseUOM();
+    //         "Entry No." := 1;
+    //     end;
+    // end;
 
     var
         CauseOfAbsence: Record "Cause of Absence";
@@ -154,5 +140,59 @@ table 50005 "Leave Application"
     begin
         HumanResourcesSetup.Get();
         HumanResourcesSetup.TestField("Base Unit of Measure");
+    end;
+
+    local procedure CalculateLeaveRemaining()
+    var
+        LeaveApplication: Record "Leave Application";
+        Absence: Record "Employee Absence";
+        Employee: Record Employee;
+        Total: Integer;
+        "Current Year": Integer;
+        CurrRemaining: Integer;
+    begin
+        Employee.SetRange("No.", Rec."Employee No.");
+        "Current Year" := Date2DMY(WorkDate, 3);
+        LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
+        LeaveApplication.FindSet();
+        LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
+        LeaveApplication.Modify();
+        Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
+        Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
+        Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
+        if Absence.FindSet() then
+            repeat begin
+                begin
+                    repeat begin
+                        Total += Absence.Quantity;
+                    end until Absence.Next() = 0;
+                end;
+            end until Absence.Next() = 0;
+        LeaveApplication."Leave Remaining" := Total - LeaveApplication."Leave Quantity";
+        // if LeaveApplication."Leave Remaining" < 0 then
+        //     LeaveApplication."Leave Remaining" := 0;
+        LeaveApplication.Modify();
+    end;
+
+    local procedure DateValidation()
+    begin
+        if ("From Date" = 0D) or ("To Date" = 0D) then
+        begin
+            "Leave Quantity" := 0;
+        end;
+        if ("From Date" <> 0D) and ("To Date" <> 0D) then begin
+            "Leave Quantity" := Rec."To Date" - Rec."From Date";
+        
+            if "Leave Quantity" < 0 then
+                "Leave Quantity" := 0;
+
+
+        if (Rec."From Date" = Rec."To Date") then begin
+            Error('From Date and To Date cannot be same.');
+        end;
+        if (Rec."From Date" > Rec."To Date") then begin
+            Error('From Date cannot be greater than To Date.');
+        end;
+        end;
     end;
 }

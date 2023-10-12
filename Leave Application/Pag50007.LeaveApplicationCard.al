@@ -4,7 +4,7 @@ page 50007 "Leave Application Card"
     Caption = 'Leave Application';
     PageType = Card;
     SourceTable = "Leave Application";
-
+    AutoSplitKey = true;
     layout
     {
         area(content)
@@ -32,10 +32,6 @@ page 50007 "Leave Application Card"
                 field("Leave Type"; Rec."Leave Type")
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
-                    trigger OnValidate()
-                    begin
-                        CalculateLeaveRemaining();
-                    end;
                 }
                 field(Description; Rec.Description)
                 {
@@ -92,6 +88,10 @@ page 50007 "Leave Application Card"
                                   "Table Line No." = FIELD("Entry No.");
                 ToolTip = 'View or add comments for the record.';
             }
+            // action()
+            // {
+                
+            // }
         }
     }
     local procedure CalculateLeaveRemaining()
