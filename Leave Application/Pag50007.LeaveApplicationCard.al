@@ -1,6 +1,6 @@
 page 50007 "Leave Application Card"
 {
-    // ApplicationArea = All;
+    ApplicationArea = All;
     Caption = 'Leave Application';
     PageType = Card;
     SourceTable = "Leave Application";
@@ -98,10 +98,12 @@ page 50007 "Leave Application Card"
     var
         LeaveApplication: Record "Leave Application";
         Absence: Record "Employee Absence";
+        Employee: Record Employee;
         Total: Integer;
         "Current Year": Integer;
         CurrRemaining: Integer;
     begin
+        Employee.SetRange("No.", Rec."Employee No.");
         "Current Year" := Date2DMY(WorkDate, 3);
         LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
         LeaveApplication.FindSet();
@@ -109,7 +111,6 @@ page 50007 "Leave Application Card"
         LeaveApplication.Modify();
         Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
         Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-        // Absence.SetFilter("From Date", '%1..%2', DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
         Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
         if Absence.FindSet() then
             repeat begin
@@ -119,11 +120,9 @@ page 50007 "Leave Application Card"
                     end until Absence.Next() = 0;
                 end;
             end until Absence.Next() = 0;
-        //     CurrRemaining := Total - LeaveApplication."Leave Remaining";
-        //     if CurrRemaining <= 0 then
-        //     Error('Leave Quantity is greater than Leave Remaining. Current Leave Remaining is %1', CurrRemaining);
-        // LeaveApplication."Leave Remaining" := CurrRemaining - LeaveApplication."Leave Quantity";
-        LeaveApplication."Leave Remaining" :=  Total - LeaveApplication."Leave Quantity";
+        LeaveApplication."Leave Remaining" := Total - LeaveApplication."Leave Quantity";
+        if LeaveApplication."Leave Remaining" < 0 then
+            LeaveApplication."Leave Remaining" := 0;
         LeaveApplication.Modify();
     end;
 }

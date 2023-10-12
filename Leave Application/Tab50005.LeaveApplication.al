@@ -24,17 +24,38 @@ table 50005 "Leave Application"
         field(3; "From Date"; Date)
         {
             Caption = 'From Date';
-            // trigger OnValidate()
-            // var
-            //     LeaveApplication: Record "Leave Application";
-            // begin
-            //     LeaveApplication.Get("From Date");
-            //     "Leave Quantity" := LeaveApplication."From Date" - LeaveApplication."To Date";
-            // end;
+            trigger OnValidate()
+            var
+                leaveapp: Record "Leave Application";
+            begin
+                leaveapp.SetRange("Employee No.", Rec."Employee No.");
+                if leaveapp.FindSet() then begin
+                    repeat
+                        if Rec."From Date" = leaveapp."From Date" then begin
+                            Error('From Date cannot be same.');
+                        end;
+                        if Rec."From Date" < leaveapp."To Date" then begin
+                            Error('From Date must be greater than previous To');
+                        end;
+                        if (Rec."From Date" < leaveapp."From Date") then begin
+                            Error('From Date must be not be less than previous record.');
+                        end;
+                    until leaveapp.Next() = 0;
+                end;
+            end;
         }
         field(4; "To Date"; Date)
         {
             Caption = 'To Date ';
+            trigger OnValidate()
+            begin
+                if (Rec."From Date" = Rec."To Date") then begin
+                    Error('From Date and To Date cannot be same.');
+                end;
+                if (Rec."From Date" > Rec."To Date") then begin
+                    Error('From Date cannot be greater than To Date.');
+                end;
+            end;
         }
         field(5; "Leave Type"; Code[10])
         {
