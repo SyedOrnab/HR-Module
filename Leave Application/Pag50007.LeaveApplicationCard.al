@@ -1,6 +1,6 @@
 page 50007 "Leave Application Card"
 {
-    ApplicationArea = All;
+    // ApplicationArea = All;
     Caption = 'Leave Application';
     PageType = Card;
     SourceTable = "Leave Application";
@@ -16,10 +16,12 @@ page 50007 "Leave Application Card"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
+                    Editable = false;
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.';
+                    Editable = false;
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -52,6 +54,10 @@ page 50007 "Leave Application Card"
                 field(Comment; Rec.Comment)
                 {
                     ToolTip = 'Specifies the value of the Comment field.';
+                }
+                field("Status"; Rec."Status")
+                {
+                    ToolTip = 'Specifies the value of the Status field.';
                 }
             }
         }
@@ -90,7 +96,7 @@ page 50007 "Leave Application Card"
             }
             // action()
             // {
-                
+
             // }
         }
     }
@@ -99,30 +105,34 @@ page 50007 "Leave Application Card"
         LeaveApplication: Record "Leave Application";
         Absence: Record "Employee Absence";
         Employee: Record Employee;
+        EmployeeLeave: Record "Employee Leave";
         Total: Integer;
         "Current Year": Integer;
         CurrRemaining: Integer;
     begin
-        Employee.SetRange("No.", Rec."Employee No.");
+        // Employee.SetRange("No.", Rec."Employee No.");
         "Current Year" := Date2DMY(WorkDate, 3);
         LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
         LeaveApplication.FindSet();
         LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
         LeaveApplication.Modify();
-        Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
-        Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-        Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
-        if Absence.FindSet() then
-            repeat begin
-                begin
-                    repeat begin
-                        Total += Absence.Quantity;
-                    end until Absence.Next() = 0;
-                end;
-            end until Absence.Next() = 0;
-        LeaveApplication."Leave Remaining" := Total - LeaveApplication."Leave Quantity";
-        if LeaveApplication."Leave Remaining" < 0 then
-            LeaveApplication."Leave Remaining" := 0;
+        // Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
+        // Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
+        // Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
+        // if Absence.FindSet() then
+        //     repeat begin
+        //         begin
+        //             repeat begin
+        //                 Total += Absence.Quantity;
+        //             end until Absence.Next() = 0;
+        //         end;
+        //     end until Absence.Next() = 0;
+        EmployeeLeave.SetRange("Employee No.", LeaveApplication."Employee No.");
+        EmployeeLeave.SetRange("Leave Type", LeaveApplication."Leave Type");
+        if EmployeeLeave.FindSet() then
+            LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining";
+        if LeaveApplication."Leave Remaining" < 1 then
+            Message('You do nat have enough leave remaining.');
         LeaveApplication.Modify();
     end;
 }

@@ -48,7 +48,8 @@ table 50005 "Leave Application"
                 CauseOfAbsence.Get("Leave Type");
                 Description := CauseOfAbsence.Description;
                 Validate("Unit of Measure Code", CauseOfAbsence."Unit of Measure Code");
-                CalculateLeaveRemaining();
+                // CalculateLeaveRemaining();
+                // Modify();
             end;
         }
         field(6; Description; Text[100])
@@ -147,16 +148,15 @@ table 50005 "Leave Application"
         LeaveApplication: Record "Leave Application";
         Absence: Record "Employee Absence";
         Employee: Record Employee;
+        EmployeeLeave: Record "Employee Leave";
         Total: Integer;
         "Current Year": Integer;
         CurrRemaining: Integer;
     begin
-        Employee.SetRange("No.", Rec."Employee No.");
+        // Employee.SetRange("No.", Rec."Employee No.");
         "Current Year" := Date2DMY(WorkDate, 3);
         LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
         LeaveApplication.FindSet();
-        LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
-        LeaveApplication.Modify();
         Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
         Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
         Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
@@ -168,9 +168,10 @@ table 50005 "Leave Application"
                     end until Absence.Next() = 0;
                 end;
             end until Absence.Next() = 0;
+        // EmployeeLeave.SetRange("Employee No.", LeaveApplication."Employee No.");
+        // EmployeeLeave.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
+        // LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining" - LeaveApplication."Leave Quantity";
         LeaveApplication."Leave Remaining" := Total - LeaveApplication."Leave Quantity";
-        // if LeaveApplication."Leave Remaining" < 0 then
-        //     LeaveApplication."Leave Remaining" := 0;
         LeaveApplication.Modify();
     end;
 

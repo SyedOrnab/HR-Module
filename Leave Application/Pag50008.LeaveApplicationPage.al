@@ -17,10 +17,12 @@ page 50008 "Leave Application Page"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
+                    Editable = false;
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.';
+                    Editable = false;
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -57,6 +59,7 @@ page 50008 "Leave Application Page"
                 field("Status"; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.';
+                    Editable = false;
                 }
             }
         }
