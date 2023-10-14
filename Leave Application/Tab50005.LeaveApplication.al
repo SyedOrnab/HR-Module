@@ -35,6 +35,8 @@ table 50005 "Leave Application"
             trigger OnValidate()
             begin
                 DateValidation();
+                if "Leave Type" <> '' then
+                Rec.Validate("Leave Type",Rec."Leave Type");
             end;
         }
         field(5; "Leave Type"; Code[10])
@@ -48,8 +50,13 @@ table 50005 "Leave Application"
                 CauseOfAbsence.Get("Leave Type");
                 Description := CauseOfAbsence.Description;
                 Validate("Unit of Measure Code", CauseOfAbsence."Unit of Measure Code");
-                // CalculateLeaveRemaining();
-                // Modify();
+                // Leave Remaining
+                EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
+                EmployeeLeave.SetRange("Leave Type", Rec."Leave Type");
+                EmployeeLeave.FindFirst();
+
+                Rec."Leave Remaining" := EmployeeLeave."Leave Remaining" - Rec."Leave Quantity";
+                Rec.Modify(true);
             end;
         }
         field(6; Description; Text[100])
@@ -104,7 +111,7 @@ table 50005 "Leave Application"
         field(13; Status; Option)
         {
             Caption = 'Status';
-            OptionMembers =  ,Open,Pending,Approved;
+            OptionMembers = ,Open,Pending,Approved;
             OptionCaption = ',Open,Pending,Approved';
         }
     }
@@ -115,16 +122,6 @@ table 50005 "Leave Application"
             Clustered = true;
         }
     }
-    // trigger OnInsert()
-    // begin
-    //     EmployeeAbsence.SetCurrentKey("Entry No.");
-    //     if EmployeeAbsence.FindLast() then
-    //         "Entry No." := EmployeeAbsence."Entry No." + 1
-    //     else begin
-    //         CheckBaseUOM();
-    //         "Entry No." := 1;
-    //     end;
-    // end;
 
     var
         CauseOfAbsence: Record "Cause of Absence";
@@ -143,57 +140,25 @@ table 50005 "Leave Application"
         HumanResourcesSetup.TestField("Base Unit of Measure");
     end;
 
-    local procedure CalculateLeaveRemaining()
-    var
-        LeaveApplication: Record "Leave Application";
-        Absence: Record "Employee Absence";
-        Employee: Record Employee;
-        EmployeeLeave: Record "Employee Leave";
-        Total: Integer;
-        "Current Year": Integer;
-        CurrRemaining: Integer;
-    begin
-        // Employee.SetRange("No.", Rec."Employee No.");
-        "Current Year" := Date2DMY(WorkDate, 3);
-        LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
-        LeaveApplication.FindSet();
-        Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
-        Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-        Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
-        if Absence.FindSet() then
-            repeat begin
-                begin
-                    repeat begin
-                        Total += Absence.Quantity;
-                    end until Absence.Next() = 0;
-                end;
-            end until Absence.Next() = 0;
-        // EmployeeLeave.SetRange("Employee No.", LeaveApplication."Employee No.");
-        // EmployeeLeave.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-        // LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining" - LeaveApplication."Leave Quantity";
-        LeaveApplication."Leave Remaining" := Total - LeaveApplication."Leave Quantity";
-        LeaveApplication.Modify();
-    end;
-
+    
     local procedure DateValidation()
     begin
-        if ("From Date" = 0D) or ("To Date" = 0D) then
-        begin
+        if ("From Date" = 0D) or ("To Date" = 0D) then begin
             "Leave Quantity" := 0;
         end;
         if ("From Date" <> 0D) and ("To Date" <> 0D) then begin
             "Leave Quantity" := Rec."To Date" - Rec."From Date";
-        
+
             if "Leave Quantity" < 0 then
                 "Leave Quantity" := 0;
 
 
-        if (Rec."From Date" = Rec."To Date") then begin
-            Error('From Date and To Date cannot be same.');
-        end;
-        if (Rec."From Date" > Rec."To Date") then begin
-            Error('From Date cannot be greater than To Date.');
-        end;
+            if (Rec."From Date" = Rec."To Date") then begin
+                Error('From Date and To Date cannot be same.');
+            end;
+            if (Rec."From Date" > Rec."To Date") then begin
+                Error('From Date cannot be greater than To Date.');
+            end;
         end;
     end;
 }
