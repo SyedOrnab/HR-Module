@@ -58,6 +58,7 @@ page 50007 "Leave Application Card"
                 field("Status"; Rec."Status")
                 {
                     ToolTip = 'Specifies the value of the Status field.';
+                    Editable = false;
                 }
             }
         }
@@ -94,12 +95,76 @@ page 50007 "Leave Application Card"
                                   "Table Line No." = FIELD("Entry No.");
                 ToolTip = 'View or add comments for the record.';
             }
-            // action()
-            // {
+            group(ApproveRequest)
+            {
+                Caption = 'ApproveRequest';
+                Image = Approval;
 
-            // }
+                action(Open)
+                {
+                    ApplicationArea = Suite;
+                    Image = Open;
+
+                    trigger OnAction()
+                    var
+                        leaveapplication: Record "Leave Application";
+                    begin
+                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
+                        leaveapplication.Status := Rec.Status::Open;
+                        leaveapplication.Modify(true);
+                        IsEditable := true;
+                    end;
+
+
+                }
+                action(SendApprovalRequest)
+                {
+                    ApplicationArea = Suite;
+                    Image = SendApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        leaveapplication: Record "Leave Application";
+                    begin
+                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
+                        leaveapplication.Status := Rec.Status::Pending;
+                        leaveapplication.Modify(true);
+                    end;
+                }
+                action(CancelApprovalRequest)
+                {
+                    ApplicationArea = Suite;
+                    Image = CancelApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        leaveapplication: Record "Leave Application";
+                    begin
+                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
+                        leaveapplication.Status := Rec.Status::Open;
+                        leaveapplication.Modify(true);
+                    end;
+                }
+                action(Approved)
+                {
+                    ApplicationArea = Suite;
+                    Image = Approve;
+
+                    trigger OnAction()
+                    var
+                        leaveapplication: Record "Leave Application";
+                    begin
+                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
+                        leaveapplication.Status := Rec.Status::Approved;
+                        leaveapplication.Modify(true);
+                    end;
+                }
+            }
         }
     }
+    var
+        IsEditable: Boolean;
+
     local procedure CalculateLeaveRemaining()
     var
         LeaveApplication: Record "Leave Application";
@@ -116,17 +181,6 @@ page 50007 "Leave Application Card"
         LeaveApplication.FindSet();
         LeaveApplication."Leave Quantity" := LeaveApplication."To Date" - LeaveApplication."From Date";
         LeaveApplication.Modify();
-        // Absence.SetRange("Employee No.", LeaveApplication."Employee No.");
-        // Absence.SetRange("Cause of Absence Code", LeaveApplication."Leave Type");
-        // Absence.SetRange("From Date", DMY2Date(1, 1, "Current Year"), DMY2Date(31, 12, "Current Year"));
-        // if Absence.FindSet() then
-        //     repeat begin
-        //         begin
-        //             repeat begin
-        //                 Total += Absence.Quantity;
-        //             end until Absence.Next() = 0;
-        //         end;
-        //     end until Absence.Next() = 0;
         EmployeeLeave.SetRange("Employee No.", LeaveApplication."Employee No.");
         EmployeeLeave.SetRange("Leave Type", LeaveApplication."Leave Type");
         if EmployeeLeave.FindSet() then
@@ -134,5 +188,16 @@ page 50007 "Leave Application Card"
         if LeaveApplication."Leave Remaining" < 1 then
             Message('You do nat have enough leave remaining.');
         LeaveApplication.Modify();
+    end;
+
+    trigger OnInit()
+    begin
+        IsEditable := true;
+    end;
+
+    trigger OnAfterGetCurrRecord()
+    begin
+        if (Rec.Status <> Rec.Status::Open) then
+            IsEditable := false;
     end;
 }
