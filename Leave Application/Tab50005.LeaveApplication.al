@@ -55,7 +55,7 @@ table 50005 "Leave Application"
                 EmployeeLeave.SetRange("Leave Type", Rec."Leave Type");
                 EmployeeLeave.FindFirst();
 
-                Rec."Leave Remaining" := EmployeeLeave."Leave Remaining" - Rec."Leave Quantity";
+                Rec."Leave Remaining" := EmployeeLeave."Leave Remaining";
                 Rec.Modify(true);
             end;
         }
