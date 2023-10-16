@@ -1,6 +1,6 @@
 page 50007 "Leave Application Card"
 {
-    // ApplicationArea = All;
+    ApplicationArea = All;
     Caption = 'Leave Application';
     PageType = Card;
     SourceTable = "Leave Application";
