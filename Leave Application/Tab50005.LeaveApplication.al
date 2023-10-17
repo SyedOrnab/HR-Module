@@ -36,7 +36,7 @@ table 50005 "Leave Application"
             begin
                 DateValidation();
                 if "Leave Type" <> '' then
-                Rec.Validate("Leave Type",Rec."Leave Type");
+                    Rec.Validate("Leave Type", Rec."Leave Type");
             end;
         }
         field(5; "Leave Type"; Code[10])
@@ -111,8 +111,28 @@ table 50005 "Leave Application"
         field(13; Status; Option)
         {
             Caption = 'Status';
-            OptionMembers = ,Open,Pending,Approved;
-            OptionCaption = ',Open,Pending,Approved';
+            OptionMembers = ,Open,Pending,Approved,Released,Rejected;
+            OptionCaption = ',Open,Pending,Approved,Released,Rejected';
+
+            trigger OnValidate()
+            var
+                AbsenceReg: Record "Employee Absence";
+            begin
+                if Status = Status::Released then begin
+                    if Rec.Status = Status::Released then begin
+                        EmployeeAbsence.INIT;
+                        EmployeeAbsence."Employee No." := Rec."Employee No.";
+                        EmployeeAbsence."Entry No." := Rec."Entry No.";
+                        EmployeeAbsence."From Date" := Rec."From Date";
+                        EmployeeAbsence."To Date" := Rec."To Date";
+                        EmployeeAbsence."Cause of Absence Code" := Rec."Leave Type";
+                        EmployeeAbsence.Description := Rec.Description;
+                        EmployeeAbsence.Quantity:= Rec."Leave Quantity";
+                        EmployeeAbsence."Unit of Measure Code" := Rec."Unit of Measure Code";
+                        EmployeeAbsence.INSERT(true);
+                    end;
+                end;
+            end;
         }
     }
     keys
@@ -140,7 +160,7 @@ table 50005 "Leave Application"
         HumanResourcesSetup.TestField("Base Unit of Measure");
     end;
 
-    
+
     local procedure DateValidation()
     begin
         if ("From Date" = 0D) or ("To Date" = 0D) then begin

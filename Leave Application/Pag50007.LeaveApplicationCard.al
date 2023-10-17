@@ -95,15 +95,30 @@ page 50007 "Leave Application Card"
                                   "Table Line No." = FIELD("Entry No.");
                 ToolTip = 'View or add comments for the record.';
             }
-            group(ApproveRequest)
+            group(Release)
             {
                 Caption = 'ApproveRequest';
-                Image = Approval;
+                Image = ReleaseDoc;
 
-                action(Open)
+                action(Released)
                 {
                     ApplicationArea = Suite;
-                    Image = Open;
+                    Image = ReleaseDoc;
+
+                    trigger OnAction()
+                    var
+                        leaveapplication: Record "Leave Application";
+                    begin
+                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
+                        leaveapplication.Validate("Status", leaveapplication.Status::Released);
+                        // leaveapplication.Status := Rec.Status::Released;
+                        leaveapplication.Modify(true);
+                    end;
+                }
+                action(ReOpen)
+                {
+                    ApplicationArea = Suite;
+                    Image = ReOpen;
 
                     trigger OnAction()
                     var
@@ -111,51 +126,6 @@ page 50007 "Leave Application Card"
                     begin
                         leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
                         leaveapplication.Status := Rec.Status::Open;
-                        leaveapplication.Modify(true);
-                        IsEditable := true;
-                    end;
-
-
-                }
-                action(SendApprovalRequest)
-                {
-                    ApplicationArea = Suite;
-                    Image = SendApprovalRequest;
-
-                    trigger OnAction()
-                    var
-                        leaveapplication: Record "Leave Application";
-                    begin
-                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Status := Rec.Status::Pending;
-                        leaveapplication.Modify(true);
-                    end;
-                }
-                action(CancelApprovalRequest)
-                {
-                    ApplicationArea = Suite;
-                    Image = CancelApprovalRequest;
-
-                    trigger OnAction()
-                    var
-                        leaveapplication: Record "Leave Application";
-                    begin
-                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Status := Rec.Status::Open;
-                        leaveapplication.Modify(true);
-                    end;
-                }
-                action(Approved)
-                {
-                    ApplicationArea = Suite;
-                    Image = Approve;
-
-                    trigger OnAction()
-                    var
-                        leaveapplication: Record "Leave Application";
-                    begin
-                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Status := Rec.Status::Approved;
                         leaveapplication.Modify(true);
                     end;
                 }
@@ -200,4 +170,9 @@ page 50007 "Leave Application Card"
         if (Rec.Status <> Rec.Status::Open) then
             IsEditable := false;
     end;
+    /*trigger OnAfterGetRecord()
+    begin
+        if (Rec.Status <> Rec.Status::Rejected) then
+            Rec.Status := Rec.Status::Open;
+    end;*/
 }
