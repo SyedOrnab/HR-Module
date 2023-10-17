@@ -119,7 +119,6 @@ table 50005 "Leave Application"
                 AbsenceReg: Record "Employee Absence";
             begin
                 if Status = Status::Released then begin
-                    if Rec.Status = Status::Released then begin
                         EmployeeAbsence.INIT;
                         EmployeeAbsence."Employee No." := Rec."Employee No.";
                         EmployeeAbsence."Entry No." := Rec."Entry No.";
@@ -130,7 +129,6 @@ table 50005 "Leave Application"
                         EmployeeAbsence.Quantity:= Rec."Leave Quantity";
                         EmployeeAbsence."Unit of Measure Code" := Rec."Unit of Measure Code";
                         EmployeeAbsence.INSERT(true);
-                    end;
                 end;
             end;
         }
