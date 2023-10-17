@@ -115,8 +115,6 @@ table 50005 "Leave Application"
             OptionCaption = ',Open,Pending,Approved,Released,Rejected';
 
             trigger OnValidate()
-            var
-                AbsenceReg: Record "Employee Absence";
             begin
                 if Status = Status::Released then begin
                         EmployeeAbsence.INIT;
