@@ -38,7 +38,7 @@
 - **Leave Remaining** - Integer
 - **Unit of Measure Code** - Code [10], Table Reference = "Human Resource Unit of Measure”. Code
 - **Comment** - Boolean
-- - **Status** - Option (Open, Pending, Approved, Released, Rejected)
+- **Status** - Option (Open, Pending, Approved, Released, Rejected)
 
 **Features**:
 - **Entry No.** - Auto-Generated
