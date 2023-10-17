@@ -15,6 +15,7 @@
 - **Unit of Measure Code** - Code [10], Table Reference = "Human Resource Unit of Measure”. Code
 - **Comment** - Boolean
 
+
 **Features**:
 - **Entry No.** - Auto-Generated
 - **Date Validation**
@@ -37,6 +38,7 @@
 - **Leave Remaining** - Integer
 - **Unit of Measure Code** - Code [10], Table Reference = "Human Resource Unit of Measure”. Code
 - **Comment** - Boolean
+- **Status** - Option (Open, Pending, Approved, Released, Rejected)
 
 **Features**:
 - **Entry No.** - Auto-Generated
@@ -45,6 +47,7 @@
 - Action to "Calculate Leave Remaining" calculates total absence data and updates the Leave Remaining field. (Leave remaining calculation data is obtained from Employee Absence for individual employees)
 - Leave remaining cannot be negative. If Leave Remaining is less than zero, it is displayed as zero.
 - **Comment** - Boolean
+- **Status** - When the status is Released, store the data in the “Absence Registration” Table.
 
 <img src="https://i.imgur.com/wnlEfib.png">
 <img src="https://i.imgur.com/oJnPOC4.png">
