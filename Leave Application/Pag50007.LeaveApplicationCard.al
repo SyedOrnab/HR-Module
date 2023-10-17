@@ -110,7 +110,7 @@ page 50007 "Leave Application Card"
                         leaveapplication: Record "Leave Application";
                     begin
                         leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Validate("Status", leaveapplication.Status::Released);
+                        leaveapplication.Validate("Status", leaveapplication.Status::Released); //Calls the OnValidate trigger for the field that you specify.
                         // leaveapplication.Status := Rec.Status::Released;
                         leaveapplication.Modify(true);
                     end;
