@@ -17,13 +17,14 @@ page 50007 "Leave Application Card"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     // Editable = IsEditable;
+                    Editable = false;
 
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.';
                     // Editable = IsEditable;
-                    ;
+                    Editable = false;
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -44,6 +45,7 @@ page 50007 "Leave Application Card"
                 {
                     ToolTip = 'Specifies the value of the Description field.';
                     // Editable = IsEditable;
+                    Editable = false;
                 }
                 field("Leave Quantity"; Rec."Leave Quantity")
                 {
@@ -69,6 +71,7 @@ page 50007 "Leave Application Card"
                 {
                     ToolTip = 'Specifies the value of the Status field.';
                     // Editable = IsEditable;
+                    Editable = false;
                 }
             }
         }

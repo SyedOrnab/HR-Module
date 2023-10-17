@@ -167,8 +167,8 @@ table 50005 "Leave Application"
         if ("From Date" <> 0D) and ("To Date" <> 0D) then begin
             "Leave Quantity" := Rec."To Date" - Rec."From Date";
 
-            if "Leave Quantity" < 0 then
-                "Leave Quantity" := 0;
+            // if "Leave Quantity" < 0 then
+            //     "Leave Quantity" := 0;
 
 
             if (Rec."From Date" = Rec."To Date") then begin
