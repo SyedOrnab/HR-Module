@@ -115,18 +115,20 @@ table 50005 "Leave Application"
             OptionCaption = ',Open,Pending,Approved,Released,Rejected';
 
             trigger OnValidate()
+            var
+                EmployeeAbsence: Record "Employee Absence";
             begin
                 if Status = Status::Released then begin
-                        EmployeeAbsence.INIT;
-                        EmployeeAbsence."Employee No." := Rec."Employee No.";
-                        EmployeeAbsence."Entry No." := Rec."Entry No.";
-                        EmployeeAbsence."From Date" := Rec."From Date";
-                        EmployeeAbsence."To Date" := Rec."To Date";
-                        EmployeeAbsence."Cause of Absence Code" := Rec."Leave Type";
-                        EmployeeAbsence.Description := Rec.Description;
-                        EmployeeAbsence.Quantity:= Rec."Leave Quantity";
-                        EmployeeAbsence."Unit of Measure Code" := Rec."Unit of Measure Code";
-                        EmployeeAbsence.INSERT(true);
+                    EmployeeAbsence.INIT;
+                    EmployeeAbsence."Employee No." := Rec."Employee No.";
+                    EmployeeAbsence."Entry No." := Rec."Entry No.";
+                    EmployeeAbsence."From Date" := Rec."From Date";
+                    EmployeeAbsence."To Date" := Rec."To Date";
+                    EmployeeAbsence."Cause of Absence Code" := Rec."Leave Type";
+                    EmployeeAbsence.Description := Rec.Description;
+                    EmployeeAbsence.Quantity := Rec."Leave Quantity";
+                    EmployeeAbsence."Unit of Measure Code" := Rec."Unit of Measure Code";
+                    EmployeeAbsence.INSERT(true);
                 end;
             end;
         }

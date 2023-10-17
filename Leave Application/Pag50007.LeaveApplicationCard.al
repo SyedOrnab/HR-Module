@@ -16,49 +16,59 @@ page 50007 "Leave Application Card"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
-                    Editable = false;
+                    // Editable = IsEditable;
+
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.';
-                    Editable = false;
+                    // Editable = IsEditable;
+                    ;
                 }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
+                    // Editable = IsEditable;
                 }
                 field("To Date"; Rec."To Date")
                 {
                     ToolTip = 'Specifies the value of the To Date  field.';
+                    // Editable = IsEditable;
                 }
                 field("Leave Type"; Rec."Leave Type")
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
+                    // Editable = IsEditable;
                 }
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';
+                    // Editable = IsEditable;
                 }
                 field("Leave Quantity"; Rec."Leave Quantity")
                 {
                     ToolTip = 'Specifies the value of the Leave Quantity field.';
+                    // Editable = IsEditable;
                 }
                 field("Leave Remaining"; Rec."Leave Remaining")
                 {
                     ToolTip = 'Specifies the value of the Leave Remaining field.';
+                    // Editable = IsEditable;
                 }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
                 {
                     ToolTip = 'Specifies the value of the Unit of Measure Code field.';
+                    // Editable = IsEditable;
                 }
                 field(Comment; Rec.Comment)
                 {
                     ToolTip = 'Specifies the value of the Comment field.';
+                    // Editable = IsEditable;
                 }
                 field("Status"; Rec."Status")
                 {
                     ToolTip = 'Specifies the value of the Status field.';
-                    Editable = false;
+                    // Editable = IsEditable;
                 }
             }
         }
@@ -107,12 +117,21 @@ page 50007 "Leave Application Card"
 
                     trigger OnAction()
                     var
-                        leaveapplication: Record "Leave Application";
+                        EmployeeLeave: Record "Employee Leave";
+                        EmployeeAbsence: Record "Employee Absence";
+                        Total: Integer;
                     begin
-                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Validate("Status", leaveapplication.Status::Released); //Calls the OnValidate trigger for the field that you specify.
-                        // leaveapplication.Status := Rec.Status::Released;
-                        leaveapplication.Modify(true);
+                        Rec.Validate("Status", Rec.Status::Released); //Calls the OnValidate trigger for the field that you specify.
+
+                        // EmployeeAbsence.SetRange("Employee No.", Rec."Employee No.");
+                        // EmployeeAbsence.SetRange("Cause of Absence Code", Rec."Leave Type");
+                        // if EmployeeAbsence.FindSet() then
+                        //     repeat
+                        //         Total += EmployeeAbsence.Quantity;
+                        //     until EmployeeAbsence.Next() = 0;
+                        // if Total > Rec."Leave Remaining" then
+                        //     Message('You do nat have enough leave remaining.');
+                        // Rec.Modify(true);
                     end;
                 }
                 action(ReOpen)
@@ -121,12 +140,10 @@ page 50007 "Leave Application Card"
                     Image = ReOpen;
 
                     trigger OnAction()
-                    var
-                        leaveapplication: Record "Leave Application";
                     begin
-                        leaveapplication.Get(Rec."Employee No.", Rec."Entry No.");
-                        leaveapplication.Status := Rec.Status::Open;
-                        leaveapplication.Modify(true);
+                        Rec.Get(Rec."Employee No.", Rec."Entry No.");
+                        Rec.Status := Rec.Status::Open;
+                        Rec.Modify(true);
                     end;
                 }
             }
@@ -168,11 +185,6 @@ page 50007 "Leave Application Card"
     trigger OnAfterGetCurrRecord()
     begin
         if (Rec.Status <> Rec.Status::Open) then
-            IsEditable := false;
+            CurrPage.Editable := false;
     end;
-    /*trigger OnAfterGetRecord()
-    begin
-        if (Rec.Status <> Rec.Status::Rejected) then
-            Rec.Status := Rec.Status::Open;
-    end;*/
 }
