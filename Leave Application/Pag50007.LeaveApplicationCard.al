@@ -122,10 +122,9 @@ page 50007 "Leave Application Card"
                     var
                         EmployeeLeave: Record "Employee Leave";
                         EmployeeAbsence: Record "Employee Absence";
+                        LeaveApplication: Record "Leave Application";
                         Total: Integer;
                     begin
-                        Rec.Validate("Status", Rec.Status::Released); //Calls the OnValidate trigger for the field that you specify.
-
                         // EmployeeAbsence.SetRange("Employee No.", Rec."Employee No.");
                         // EmployeeAbsence.SetRange("Cause of Absence Code", Rec."Leave Type");
                         // if EmployeeAbsence.FindSet() then
@@ -135,6 +134,13 @@ page 50007 "Leave Application Card"
                         // if Total > Rec."Leave Remaining" then
                         //     Message('You do nat have enough leave remaining.');
                         // Rec.Modify(true);
+                        
+
+                        Rec.Validate("Status", Rec.Status::Released);  //Calls the OnValidate trigger for the field that you specify.
+                        
+                        // EmployeeLeave.Get(Rec."Employee No.", Rec."Leave Type");
+                        // if EmployeeLeave."Leave Remaining" < 0 then
+                        //     Message('You do not have enough leave remaining.');
                     end;
                 }
                 action(ReOpen)
@@ -176,7 +182,7 @@ page 50007 "Leave Application Card"
         if EmployeeLeave.FindSet() then
             LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining";
         if LeaveApplication."Leave Remaining" < 1 then
-            Message('You do nat have enough leave remaining.');
+            Message('You do not have enough leave remaining.');
         LeaveApplication.Modify();
     end;
 
