@@ -92,7 +92,6 @@ table 50005 "Leave Application"
                 EmployeeLeave.FindFirst();
 
                 Rec."Leave Remaining" := EmployeeLeave."Leave Remaining";
-                Rec.Modify(true);
             end;
         }
         field(6; Description; Text[100])
@@ -107,6 +106,9 @@ table 50005 "Leave Application"
             trigger OnValidate()
             begin
                 "Quantity (Base)" := UOMMgt.CalcBaseQty("Leave Quantity", "Qty. per Unit of Measure");
+
+                if Rec."Leave Quantity" > Rec."Leave Remaining" then
+                    Error('Only %1 leave remaining left. But the total quantity you enter %2.', Rec."Leave Remaining", Rec."Leave Quantity");                   
             end;
         }
         field(8; "Leave Remaining"; Integer)
@@ -239,7 +241,7 @@ table 50005 "Leave Application"
             "Leave Quantity" := 0;
         end;
         if ("From Date" <> 0D) and ("To Date" <> 0D) then begin
-            "Leave Quantity" := Rec."To Date" - Rec."From Date";
+            Rec.Validate("Leave Quantity", Rec."To Date" - Rec."From Date");
 
             // if "Leave Quantity" < 0 then
             //     "Leave Quantity" := 0;

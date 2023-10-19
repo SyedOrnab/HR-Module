@@ -26,16 +26,6 @@ page 50007 "Leave Application Card"
                     // Editable = IsEditable;
                     Editable = false;
                 }
-                field("From Date"; Rec."From Date")
-                {
-                    ToolTip = 'Specifies the value of the From Date field.';
-                    // Editable = IsEditable;
-                }
-                field("To Date"; Rec."To Date")
-                {
-                    ToolTip = 'Specifies the value of the To Date  field.';
-                    // Editable = IsEditable;
-                }
                 field("Leave Type"; Rec."Leave Type")
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
@@ -47,20 +37,30 @@ page 50007 "Leave Application Card"
                     // Editable = IsEditable;
                     Editable = false;
                 }
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.';
+                    // Editable = IsEditable;
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date  field.';
+                    // Editable = IsEditable;
+                }
                 field("Leave Quantity"; Rec."Leave Quantity")
                 {
                     ToolTip = 'Specifies the value of the Leave Quantity field.';
-                    // Editable = IsEditable;
+                    Editable = false;
                 }
                 field("Leave Remaining"; Rec."Leave Remaining")
                 {
                     ToolTip = 'Specifies the value of the Leave Remaining field.';
-                    // Editable = IsEditable;
+                    Editable = false;
                 }
                 field("Unit of Measure Code"; Rec."Unit of Measure Code")
                 {
                     ToolTip = 'Specifies the value of the Unit of Measure Code field.';
-                    // Editable = IsEditable;
+                    Editable = false;
                 }
                 field(Comment; Rec.Comment)
                 {
