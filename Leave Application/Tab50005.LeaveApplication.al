@@ -25,7 +25,16 @@ table 50005 "Leave Application"
         {
             Caption = 'From Date';
             trigger OnValidate()
+            var
+                LeaveApplicaiton: Record "Leave Application";
             begin
+                LeaveApplicaiton.SetRange("Employee No.", Rec."Employee No.");
+                if LeaveApplicaiton.FindSet() then begin
+                    repeat
+                        if LeaveApplicaiton."From Date" = Rec."From Date" then
+                            Error('From Date is same');
+                    until LeaveApplicaiton.Next() = 0;
+                end;
                 DateValidation();
             end;
         }
@@ -160,7 +169,17 @@ table 50005 "Leave Application"
 
 
     local procedure DateValidation()
+    var
+        Leaveappcard: Page "Leave Application Card";
+        PreFromDate: Date;
+        PreToDate: Date;
     begin
+        // PreFromDate:= Rec."From Date";
+        // repeat 
+        // if PreFromDate = Rec."From Date" then
+        //     Message('From Date is same');
+        // until PreFromDate = Rec."From Date";
+
         if ("From Date" = 0D) or ("To Date" = 0D) then begin
             "Leave Quantity" := 0;
         end;
