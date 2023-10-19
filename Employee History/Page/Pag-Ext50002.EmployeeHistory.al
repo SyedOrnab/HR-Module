@@ -1,5 +1,16 @@
 pageextension 50002 "Employee History" extends "Employee Card"
 {
+    layout
+    {
+        addlast(Administration)
+        {
+            field("User ID";Rec."User ID")
+            {
+                ApplicationArea = All;
+                Caption='User ID';
+            }
+        }
+    }
     actions
     {
         addafter("E&mployee")
