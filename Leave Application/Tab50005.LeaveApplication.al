@@ -29,10 +29,19 @@ table 50005 "Leave Application"
                 LeaveApplicaiton: Record "Leave Application";
             begin
                 LeaveApplicaiton.SetRange("Employee No.", Rec."Employee No.");
+                LeaveApplicaiton.SetFilter("Entry No.", '<>%1', Rec."Entry No.");
                 if LeaveApplicaiton.FindSet() then begin
                     repeat
                         if LeaveApplicaiton."From Date" = Rec."From Date" then
-                            Error('From Date is same');
+                            Error('Leave Application already exists for this date.');
+                        if LeaveApplicaiton."To Date" = Rec."To Date" then
+                            Error('Leave Application already exists for this date.');
+                        if LeaveApplicaiton."To Date" = Rec."From Date" then
+                            Error('Leave Application already exists for this date.');
+                        if LeaveApplicaiton."From Date" < Rec."From Date" then begin
+                            if LeaveApplicaiton."To Date" > Rec."From Date" then
+                                Error('Leave Application already exists for this date.');
+                        end;
                     until LeaveApplicaiton.Next() = 0;
                 end;
                 DateValidation();
@@ -42,7 +51,25 @@ table 50005 "Leave Application"
         {
             Caption = 'To Date ';
             trigger OnValidate()
+            var
+                LeaveApplicaiton: Record "Leave Application";
             begin
+                // LeaveApplicaiton.SetRange("Employee No.", Rec."Employee No.");
+                // if LeaveApplicaiton.FindSet() then begin
+                //     repeat
+                //         if LeaveApplicaiton."From Date" = Rec."From Date" then
+                //             Error('Leave Application already exists for this date.');
+                //         if LeaveApplicaiton."To Date" = Rec."From Date" then
+                //             Error('Leave Application already exists for this date.');
+                //         if LeaveApplicaiton."To Date" = Rec."To Date" then
+                //             Error('Leave Application already exists for this date.');
+                //         if LeaveApplicaiton."From Date" < Rec."From Date" then begin
+                //             if LeaveApplicaiton."To Date" > Rec."From Date" then
+                //                 Error('Leave Application already exists for this date.');
+                //         end;
+                // until LeaveApplicaiton.Next() = 0;
+                // end;
+
                 DateValidation();
                 if "Leave Type" <> '' then
                     Rec.Validate("Leave Type", Rec."Leave Type");
@@ -126,7 +153,28 @@ table 50005 "Leave Application"
             trigger OnValidate()
             var
                 EmployeeAbsence: Record "Employee Absence";
+                EmployeeLeave: Record "Employee Leave";
+                LeaveApplication: Record "Leave Application";
+                TotalQuantity: Decimal;
+                LeaveRemaining: Integer;
             begin
+                // LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
+                // if LeaveApplication.FindSet() then begin
+                //     repeat
+                //         TotalQuantity += LeaveApplication."Leave Quantity";
+                //         if TotalQuantity > Rec."Leave Remaining" then
+                //             Error('Leave Quantity cannot be greater than Leave Remaining.');
+                // until LeaveApplication.Next() = 0;
+                // end;
+
+                // EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
+                // EmployeeLeave.SetRange("Leave Type", Rec."Leave Type");
+                // if Status = Status::Released then begin
+                //         LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining" - Rec."Leave Quantity";
+                //         LeaveApplication.Modify(true);
+                //     end;
+
+
                 if Status = Status::Released then begin
                     EmployeeAbsence.INIT;
                     EmployeeAbsence."Employee No." := Rec."Employee No.";
@@ -138,6 +186,19 @@ table 50005 "Leave Application"
                     EmployeeAbsence.Quantity := Rec."Leave Quantity";
                     EmployeeAbsence."Unit of Measure Code" := Rec."Unit of Measure Code";
                     EmployeeAbsence.INSERT(true);
+                end;
+
+                if Status = Status::Released then begin
+                    EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
+                    EmployeeLeave.SetRange("Leave Type", Rec."Leave Type");
+                    EmployeeLeave.FindFirst();
+                    EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Remaining" - EmployeeAbsence.Quantity;
+                    EmployeeLeave.MODIFY(true);
+                end;
+
+                if Status = Status::Released then begin
+                    Rec."Leave Remaining" := EmployeeLeave."Leave Remaining";
+                    Rec.Modify(true);
                 end;
             end;
         }
@@ -174,12 +235,6 @@ table 50005 "Leave Application"
         PreFromDate: Date;
         PreToDate: Date;
     begin
-        // PreFromDate:= Rec."From Date";
-        // repeat 
-        // if PreFromDate = Rec."From Date" then
-        //     Message('From Date is same');
-        // until PreFromDate = Rec."From Date";
-
         if ("From Date" = 0D) or ("To Date" = 0D) then begin
             "Leave Quantity" := 0;
         end;
