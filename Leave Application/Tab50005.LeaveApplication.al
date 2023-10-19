@@ -54,22 +54,6 @@ table 50005 "Leave Application"
             var
                 LeaveApplicaiton: Record "Leave Application";
             begin
-                // LeaveApplicaiton.SetRange("Employee No.", Rec."Employee No.");
-                // if LeaveApplicaiton.FindSet() then begin
-                //     repeat
-                //         if LeaveApplicaiton."From Date" = Rec."From Date" then
-                //             Error('Leave Application already exists for this date.');
-                //         if LeaveApplicaiton."To Date" = Rec."From Date" then
-                //             Error('Leave Application already exists for this date.');
-                //         if LeaveApplicaiton."To Date" = Rec."To Date" then
-                //             Error('Leave Application already exists for this date.');
-                //         if LeaveApplicaiton."From Date" < Rec."From Date" then begin
-                //             if LeaveApplicaiton."To Date" > Rec."From Date" then
-                //                 Error('Leave Application already exists for this date.');
-                //         end;
-                // until LeaveApplicaiton.Next() = 0;
-                // end;
-
                 DateValidation();
                 if "Leave Type" <> '' then
                     Rec.Validate("Leave Type", Rec."Leave Type");
@@ -160,23 +144,6 @@ table 50005 "Leave Application"
                 TotalQuantity: Decimal;
                 LeaveRemaining: Integer;
             begin
-                // LeaveApplication.SetRange("Employee No.", Rec."Employee No.");
-                // if LeaveApplication.FindSet() then begin
-                //     repeat
-                //         TotalQuantity += LeaveApplication."Leave Quantity";
-                //         if TotalQuantity > Rec."Leave Remaining" then
-                //             Error('Leave Quantity cannot be greater than Leave Remaining.');
-                // until LeaveApplication.Next() = 0;
-                // end;
-
-                // EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
-                // EmployeeLeave.SetRange("Leave Type", Rec."Leave Type");
-                // if Status = Status::Released then begin
-                //         LeaveApplication."Leave Remaining" := EmployeeLeave."Leave Remaining" - Rec."Leave Quantity";
-                //         LeaveApplication.Modify(true);
-                //     end;
-
-
                 if Status = Status::Released then begin
                     EmployeeAbsence.INIT;
                     EmployeeAbsence."Employee No." := Rec."Employee No.";
@@ -242,11 +209,6 @@ table 50005 "Leave Application"
         end;
         if ("From Date" <> 0D) and ("To Date" <> 0D) then begin
             Rec.Validate("Leave Quantity", Rec."To Date" - Rec."From Date");
-
-            // if "Leave Quantity" < 0 then
-            //     "Leave Quantity" := 0;
-
-
             if (Rec."From Date" = Rec."To Date") then begin
                 Error('From Date and To Date cannot be same.');
             end;
