@@ -160,6 +160,6 @@ table 50002 "Employee Training"
         Validate("File Name",CopyStr(Filemgmt.GetFileNameWithoutExtension(FileName),1,MaxStrLen("File Name")));
         Rec.Certificate.CreateOutStream(OStream);
         CopyStream(OStream, DocStream);
-        Insert(true);
+        // Insert(true);
     end;
 }
