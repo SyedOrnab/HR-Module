@@ -143,18 +143,6 @@ page 50002 "Employee Training Page"
                 begin
                     AttachFile()
                 end;
-                /*trigger OnAction()
-                var
-                    FileMng: Codeunit "File Management";
-                    TempBlob: Codeunit "Temp Blob";
-                    InStr: InStream;
-                    OutStr: OutStream;
-                    Filename: Text;
-                    FilePath: Text;
-                begin
-                    if UploadIntoStream(SelectFileText1, '', '', FilePath, InStr) then
-                        Rec.SaveAttachmentIntoBlobFromStream(InStr, FilePath);
-                end;*/
             }
             action("Download")
             {
