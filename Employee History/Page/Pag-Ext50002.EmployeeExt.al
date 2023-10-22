@@ -4,17 +4,17 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
     {
         addlast(Administration)
         {
-            field("Time Sheet Owner User ID";Rec."Time Sheet Owner User ID")
+            /*field("Time Sheet Owner User ID";Rec."Time Sheet Owner User ID")
             {
                 ApplicationArea = All;
                 Caption = 'Time Sheet Owner User ID';
                 ToolTip = 'Time Sheet Owner User ID';
-            }
+            }*/
             field("Time Sheet Approver User ID";Rec."Time Sheet Approver User ID")
             {
                 ApplicationArea = All;
-                Caption = 'Time Sheet Approver User ID';
-                ToolTip = 'Time Sheet Approver User ID';
+                Caption = 'User ID';
+                ToolTip = 'User ID';
             }
         }
     }
