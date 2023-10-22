@@ -8,7 +8,7 @@ page 50008 "Leave Application Page"
     AutoSplitKey = true;
     CardPageId = "Leave Application Card";
     Editable = false;
-    
+
     layout
     {
         area(content)
@@ -65,4 +65,13 @@ page 50008 "Leave Application Page"
             }
         }
     }
+    var
+        Employee: Record "Employee";
+
+    trigger OnOpenPage()
+    begin
+        Employee.SetRange("Time Sheet Approver User ID", UserId);
+        if Employee.FindFirst() then
+        Rec.SetRange("Employee No.", Employee."No.");
+    end;
 }
