@@ -39,11 +39,13 @@ page 50002 "Employee Training Page"
                 {
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Description field.';
+                    Editable = false;
                 }
                 field("Duration"; Rec."Duration")
                 {
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Duration field.';
+                    Editable = false;
                 }
                 field("Planned Start Date"; Rec."Planned Start Date")
                 {
@@ -122,6 +124,7 @@ page 50002 "Employee Training Page"
                     Caption = 'Attached Date';
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the value of the Attached Date field.';
+                    Editable = false;
                 }
             }
         }
