@@ -61,6 +61,15 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
                     RunPageLink = "Employee No." = FIELD("No.");
                     ToolTip = 'View Employee Leave';
                 }
+                action(CSVImport)
+                {
+                    Caption = 'CSV Import';
+                    Image = Import;
+                    ApplicationArea = All;
+                    RunObject = Page "CSV Import";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    ToolTip = 'CSV Import';
+                }
             }
 
         }
