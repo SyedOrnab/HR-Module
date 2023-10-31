@@ -30,39 +30,25 @@ page 50009 "CSV Import"
                     Visible = false;
                     ApplicationArea = All;
                 }
+                field("Employee No.";Rec."Employee No.")
+                {
+                    ApplicationArea = All;
+                }
                 field("Line No."; Rec."Line No.")
                 {
                     Visible = false;
                     ApplicationArea = All;
                 }
-                field("Product No."; Rec."Production No.")
-                {
-
-                    ApplicationArea = All;
-                }
-                field("Employee-No."; Rec."Employee No.")
-                {
-
-                    ApplicationArea = All;
-                }
                 field(Date; Rec.Date)
                 {
-
                     ApplicationArea = All;
                 }
-                field("Payment Method"; Rec."Payment Method")
+                field("Entry Time";Rec."Entry Time")
                 {
-
                     ApplicationArea = All;
                 }
-                field(Quantity; Rec.Quantity)
+                field("Exit Time";Rec."Exit Time")
                 {
-
-                    ApplicationArea = All;
-                }
-                field("Unit Price"; Rec."Unit Price")
-                {
-
                     ApplicationArea = All;
                 }
             }
@@ -157,12 +143,10 @@ page 50009 "CSV Import"
             ImportBuffer.Init();
             Evaluate(ImportBuffer."Transaction Name", TransName);
             ImportBuffer."Line No." := LineNO;
-            Evaluate(ImportBuffer."Production No.", GetValueAtCell(RowNo, 1));
             Evaluate(ImportBuffer."Employee No.", GetValueAtCell(RowNo, 2));
             Evaluate(ImportBuffer.Date, GetValueAtCell(RowNo, 3));
-            Evaluate(ImportBuffer."Payment Method", GetValueAtCell(RowNo, 4));
-            Evaluate(ImportBuffer.Quantity, GetValueAtCell(RowNo, 5));
-            Evaluate(ImportBuffer."Unit Price", GetValueAtCell(RowNo, 6));
+            Evaluate(ImportBuffer."Entry Time", GetValueAtCell(RowNo, 4));
+            Evaluate(ImportBuffer."Exit Time", GetValueAtCell(RowNo, 5));
             ImportBuffer.Insert();
         end;
         Message(CSVImportSuccess);

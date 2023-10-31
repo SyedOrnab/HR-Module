@@ -10,41 +10,32 @@ table 50006 CSVimport
             Caption = 'Transaction Name';
             DataClassification = CustomerContent;
         }
-        field(2; "Line No."; Integer)
+        field(2; "Employee No."; Code[30])
+        {
+            Caption = 'Transaction Name';
+            DataClassification = CustomerContent;
+        }
+        field(3; "Line No."; Integer)
         {
             Caption = 'Line No.';
             DataClassification = CustomerContent;
         }
-        field(3; "Employee No."; Code[30])
-        {
-            Caption = 'Employee No.';
-            DataClassification = CustomerContent;
-        }
-        field(4; "Production No."; Code[10])
-        {
-            Caption = 'Production No.';
-            DataClassification = CustomerContent;
-        }
-        field(5; "Date"; Date)
+        field(4; "Date"; Date)
         {
             Caption = 'Date';
             DataClassification = CustomerContent;
         }
-        field(6; "Payment Method"; Text[10])
+        field(5; "Entry Time"; Time)
         {
-            Caption = 'Payment Method';
+            Caption = 'Entry Time';
             DataClassification = CustomerContent;
         }
-        field(7; Quantity; Integer)
+        field(6; "Exit Time"; Time)
         {
-            Caption = 'Quantity';
+            Caption = 'Exit Time';
             DataClassification = CustomerContent;
         }
-        field(8; "Unit Price"; Integer)
-        {
-            Caption = 'Unit Price';
-            DataClassification = CustomerContent;
-        }
+        
     }
     keys
     {
