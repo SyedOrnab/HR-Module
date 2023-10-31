@@ -33,16 +33,21 @@ table 50004 "Employee Leave Setup"
         {
             Caption = 'Leave Quantity';
         }
-        field(5; "Leave Remaining"; Integer)
+        field(5; "Leave Taken"; Integer)
+        {
+            Caption = 'Leave Taken';
+
+        }
+        field(6; "Leave Remaining"; Integer)
         {
             Caption = 'Leave Remaining';
 
         }
-        field(6; "Total Leave"; Date)
+        field(7; "Total Leave"; Date)
         {
             Caption = 'Leave Start Date';
         }
-        field(7; "Unit of Measure Code"; Code[10])
+        field(8; "Unit of Measure Code"; Code[10])
         {
             Caption = 'Unit of Measure Code';
             TableRelation = "Human Resource Unit of Measure".Code;

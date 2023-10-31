@@ -27,9 +27,14 @@ page 50006 "Employee Leave Page"
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
                 }
+
                 field("Leave Quantity"; Rec."Leave Quantity")
                 {
                     ToolTip = 'Specifies the value of the Leave Quantity field.';
+                }
+                field("Leave Taken"; Rec."Leave Taken")
+                {
+                    ToolTip = 'Specifies the value of the Leave Taken field.';
                 }
                 field("Leave Remaining"; Rec."Leave Remaining")
                 {
