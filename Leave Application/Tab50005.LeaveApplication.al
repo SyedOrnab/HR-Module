@@ -91,8 +91,8 @@ table 50005 "Leave Application"
             begin
                 "Quantity (Base)" := UOMMgt.CalcBaseQty("Leave Quantity", "Qty. per Unit of Measure");
 
-                if Rec."Leave Quantity" > Rec."Leave Remaining" then
-                    Error('Only %1 leave remaining left. But the total quantity you enter %2.', Rec."Leave Remaining", Rec."Leave Quantity");
+                // if Rec."Leave Quantity" > Rec."Leave Remaining" then
+                //     Error('Only %1 leave remaining left. But the total quantity you enter %2.', Rec."Leave Remaining", Rec."Leave Quantity");
             end;
         }
         field(8; "Leave Remaining"; Integer)
@@ -143,6 +143,7 @@ table 50005 "Leave Application"
                 LeaveApplication: Record "Leave Application";
                 TotalQuantity: Decimal;
                 LeaveRemaining: Integer;
+                TotalLeaveTaken: Integer;
             begin
                 if Status = Status::Released then begin
                     EmployeeAbsence.INIT;
@@ -163,6 +164,27 @@ table 50005 "Leave Application"
                     EmployeeLeave.FindFirst();
                     EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Remaining" - EmployeeAbsence.Quantity;
                     EmployeeLeave.MODIFY(true);
+                end;
+
+                if Status = Status::Released then begin
+                    EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
+                    if EmployeeLeave.FindSet() then
+                        repeat begin
+                            EmployeeAbsence.SetRange("Employee No.", EmployeeLeave."Employee No.");
+                            EmployeeAbsence.SetRange("Cause of Absence Code", EmployeeLeave."Leave Type");
+                            if EmployeeAbsence.FindSet() then
+                                repeat begin
+                                    begin
+                                        repeat begin
+                                            TotalLeaveTaken += EmployeeAbsence.Quantity;
+                                        end until EmployeeAbsence.Next() = 0;
+                                    end;
+                                end until EmployeeAbsence.Next() = 0;
+                            EmployeeLeave."Leave Taken" := TotalLeaveTaken;
+                            EmployeeLeave.Modify();
+                            TotalLeaveTaken := 0;
+                        end until EmployeeLeave.Next() = 0;
+
                 end;
 
                 if Status = Status::Released then begin
