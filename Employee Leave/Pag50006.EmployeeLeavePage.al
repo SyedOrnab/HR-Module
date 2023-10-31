@@ -35,10 +35,12 @@ page 50006 "Employee Leave Page"
                 field("Leave Taken"; Rec."Leave Taken")
                 {
                     ToolTip = 'Specifies the value of the Leave Taken field.';
+                    Editable = false;
                 }
                 field("Leave Remaining"; Rec."Leave Remaining")
                 {
                     ToolTip = 'Specifies the value of the Leave Remaining field.';
+                    Editable = false;
                 }
                 field("Total Leave"; Rec."Total Leave")
                 {
