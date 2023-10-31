@@ -1,8 +1,8 @@
-table 50004 "Employee Leave"
+table 50004 "Employee Leave Setup"
 {
-    Caption = 'Employee Leave';
+    Caption = 'Employee Leave Setup';
     DataClassification = ToBeClassified;
-    
+
     fields
     {
         field(1; "Employee No."; Code[20])
@@ -22,7 +22,7 @@ table 50004 "Employee Leave"
 
             trigger OnValidate()
             var
-                EmployeeLeave : Record "Employee Leave";
+                EmployeeLeave: Record "Employee Leave Setup";
             begin
                 if "Leave Type" = 'ANNUAL' then
                     "Leave Quantity" := 10;

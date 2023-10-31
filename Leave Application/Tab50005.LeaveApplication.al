@@ -65,7 +65,7 @@ table 50005 "Leave Application"
             TableRelation = "Cause of Absence";
             trigger OnValidate()
             var
-                EmployeeLeave: Record "Employee Leave";
+                EmployeeLeave: Record "Employee Leave Setup";
             begin
                 CauseOfAbsence.Get("Leave Type");
                 Description := CauseOfAbsence.Description;
@@ -92,7 +92,7 @@ table 50005 "Leave Application"
                 "Quantity (Base)" := UOMMgt.CalcBaseQty("Leave Quantity", "Qty. per Unit of Measure");
 
                 if Rec."Leave Quantity" > Rec."Leave Remaining" then
-                    Error('Only %1 leave remaining left. But the total quantity you enter %2.', Rec."Leave Remaining", Rec."Leave Quantity");                   
+                    Error('Only %1 leave remaining left. But the total quantity you enter %2.', Rec."Leave Remaining", Rec."Leave Quantity");
             end;
         }
         field(8; "Leave Remaining"; Integer)
@@ -139,7 +139,7 @@ table 50005 "Leave Application"
             trigger OnValidate()
             var
                 EmployeeAbsence: Record "Employee Absence";
-                EmployeeLeave: Record "Employee Leave";
+                EmployeeLeave: Record "Employee Leave Setup";
                 LeaveApplication: Record "Leave Application";
                 TotalQuantity: Decimal;
                 LeaveRemaining: Integer;

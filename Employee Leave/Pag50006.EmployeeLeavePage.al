@@ -3,7 +3,7 @@ page 50006 "Employee Leave Page"
     ApplicationArea = All;
     Caption = 'Employee Leave Page';
     PageType = List;
-    SourceTable = "Employee Leave";
+    SourceTable = "Employee Leave Setup";
     UsageCategory = Lists;
     AutoSplitKey = true;
 
@@ -69,7 +69,7 @@ page 50006 "Employee Leave Page"
     }
     local procedure CalculateRemainingLeave()
     var
-        EmployeeLeave: Record "Employee Leave";
+        EmployeeLeave: Record "Employee Leave Setup";
         Absence: Record "Employee Absence";
         Total: Integer;
     begin
@@ -88,7 +88,7 @@ page 50006 "Employee Leave Page"
                     end until Absence.Next() = 0;
                 EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Total;
                 EmployeeLeave.Modify();
-                Total :=0;
+                Total := 0;
             end until EmployeeLeave.Next() = 0;
     end;
 

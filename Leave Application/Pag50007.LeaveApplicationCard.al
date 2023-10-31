@@ -120,7 +120,7 @@ page 50007 "Leave Application Card"
 
                     trigger OnAction()
                     var
-                        EmployeeLeave: Record "Employee Leave";
+                        EmployeeLeave: Record "Employee Leave Setup";
                         EmployeeAbsence: Record "Employee Absence";
                         LeaveApplication: Record "Leave Application";
                         Total: Integer;
@@ -151,7 +151,7 @@ page 50007 "Leave Application Card"
         LeaveApplication: Record "Leave Application";
         Absence: Record "Employee Absence";
         Employee: Record Employee;
-        EmployeeLeave: Record "Employee Leave";
+        EmployeeLeave: Record "Employee Leave Setup";
         Total: Integer;
         "Current Year": Integer;
         CurrRemaining: Integer;
@@ -181,6 +181,7 @@ page 50007 "Leave Application Card"
         if (Rec.Status <> Rec.Status::Open) then
             CurrPage.Editable := false;
     end;
+
     trigger OnModifyRecord(): Boolean
     begin
         if (Rec.Status <> Rec.Status::Open) then
