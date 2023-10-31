@@ -27,7 +27,6 @@ table 50004 "Employee Leave Setup"
         field(5; "Leave Taken"; Integer)
         {
             Caption = 'Leave Taken';
-
         }
         field(6; "Leave Remaining"; Integer)
         {

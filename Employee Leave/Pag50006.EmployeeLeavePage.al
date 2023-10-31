@@ -70,6 +70,20 @@ page 50006 "Employee Leave Page"
                     CalculateRemainingLeave();
                 end;
             }
+            action(TotalLeaveTaken)
+            {
+                ApplicationArea = All;
+                Caption = 'Leave Taken';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = CalculateRemainingUsage;
+
+                trigger OnAction()
+                begin
+                    LeaveTaken();
+                end;
+            }
         }
     }
     local procedure CalculateRemainingLeave()
@@ -94,6 +108,31 @@ page 50006 "Employee Leave Page"
                 EmployeeLeave."Leave Remaining" := EmployeeLeave."Leave Quantity" - Total;
                 EmployeeLeave.Modify();
                 Total := 0;
+            end until EmployeeLeave.Next() = 0;
+    end;
+
+    local procedure LeaveTaken()
+    var
+        EmployeeLeave: Record "Employee Leave Setup";
+        Absence: Record "Employee Absence";
+        TotalLeaveTaken: Integer;
+    begin
+        EmployeeLeave.SetRange("Employee No.", Rec."Employee No.");
+        if EmployeeLeave.FindSet() then
+            repeat begin
+                Absence.SetRange("Employee No.", EmployeeLeave."Employee No.");
+                Absence.SetRange("Cause of Absence Code", EmployeeLeave."Leave Type");
+                if Absence.FindSet() then
+                    repeat begin
+                        begin
+                            repeat begin
+                                TotalLeaveTaken += Absence.Quantity;
+                            end until Absence.Next() = 0;
+                        end;
+                    end until Absence.Next() = 0;
+                EmployeeLeave."Leave Taken" := TotalLeaveTaken;
+                EmployeeLeave.Modify();
+                TotalLeaveTaken := 0;
             end until EmployeeLeave.Next() = 0;
     end;
 

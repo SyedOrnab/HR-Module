@@ -54,7 +54,7 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
                 }
                 action(ShowEmployeeLeave)
                 {
-                    Caption = 'Employee Leave';
+                    Caption = 'Employee Leave Setup';
                     Image = Absence;
                     ApplicationArea = All;
                     RunObject = Page "Employee Leave Page";
