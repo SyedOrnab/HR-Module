@@ -17,6 +17,7 @@ table 50004 "Employee Leave Setup"
         }
         field(3; "Leave Type"; Code[10])
         {
+            // FieldClass = FlowFilter;
             Caption = 'Leave Type';
             TableRelation = "Cause of Absence".Code;
         }
@@ -24,8 +25,10 @@ table 50004 "Employee Leave Setup"
         {
             Caption = 'Leave Quantity';
         }
-        field(5; "Leave Taken"; Integer)
+        field(5; "Leave Taken"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Absence".Quantity where("Employee No."= field("Employee No."),"Cause of Absence Code"=field("Leave Type")));
             Caption = 'Leave Taken';
         }
         field(6; "Leave Remaining"; Integer)

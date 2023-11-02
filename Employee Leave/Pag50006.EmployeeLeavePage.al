@@ -1,7 +1,7 @@
-page 50006 "Employee Leave Page"
+page 50006 "Employee Leave Setup Page"
 {
     ApplicationArea = All;
-    Caption = 'Employee Leave Page';
+    Caption = 'Employee Leave Setup Page';
     PageType = List;
     SourceTable = "Employee Leave Setup";
     UsageCategory = Lists;

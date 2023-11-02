@@ -1,6 +1,6 @@
-table 50001 "Employee Record T"
+table 50107 "Employee Record"
 {
-    Caption = 'Employee Record T';
+    Caption = 'Employee Record';
     DataClassification = ToBeClassified;
 
     fields
@@ -45,7 +45,7 @@ table 50001 "Employee Record T"
             DataClassification = ToBeClassified;
             trigger OnValidate()
             var
-                recEmployee: Record "Employee Record T";
+                recEmployee: Record "Employee Record";
             begin
                 recEmployee.SetRange("Emplyee No.", Rec."Emplyee No.");
                 if recEmployee.FindSet() then begin
@@ -68,7 +68,7 @@ table 50001 "Employee Record T"
             DataClassification = ToBeClassified;
             trigger OnValidate()
             var
-                recEmployee: Record "Employee Record T";
+                recEmployee: Record "Employee Record";
             begin
                 if (Rec."From Date" = Rec."To Date") then begin
                     Error('From Date and To Date cannot be same.');
@@ -86,7 +86,7 @@ table 50001 "Employee Record T"
             Editable = true;
             trigger OnValidate()
             var
-                recEmployee: Record "Employee Record T";
+                recEmployee: Record "Employee Record";
                 checkStatus: Boolean;
                 Emp: Record Employee;
             begin
