@@ -10,7 +10,7 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
                 Caption = 'Time Sheet Owner User ID';
                 ToolTip = 'Time Sheet Owner User ID';
             }*/
-            field("Time Sheet Approver User ID";Rec."Time Sheet Approver User ID")
+            field("Time Sheet Approver User ID"; Rec."Time Sheet Approver User ID")
             {
                 ApplicationArea = All;
                 Caption = 'User ID';
@@ -57,7 +57,7 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
                     Caption = 'Employee Leave Setup';
                     Image = Absence;
                     ApplicationArea = All;
-                    RunObject = Page "Employee Leave Page";
+                    RunObject = Page "Employee Leave Setup Page";
                     RunPageLink = "Employee No." = FIELD("No.");
                     ToolTip = 'View Employee Leave';
                 }

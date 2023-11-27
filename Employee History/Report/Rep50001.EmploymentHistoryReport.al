@@ -19,7 +19,7 @@ report 50001 "Employment History Report"
             column(No; "No.")
             {
             }
-            dataitem("Employee Record T"; "Employee Record T")
+            dataitem("Employee Record T"; "Employee Record")
             {
                 DataItemLink = "Emplyee No." = field("No.");
                 column(Designation; Designation)
@@ -48,28 +48,28 @@ report 50001 "Employment History Report"
             }
         }
     }
-         requestpage
+    requestpage
+    {
+        layout
         {
-            layout
+            area(Content)
             {
-                area(Content)
+                group("Filter By Date")
                 {
-                    group("Filter By Date")
+                    field("Starting Date"; StartingDate)
                     {
-                        field("Starting Date"; StartingDate)
-                        {
-                            ApplicationArea = All;
-                        }
-                        field("Ending Date"; EndingDate)
-                        {
-                            ApplicationArea = All;
-                        }
+                        ApplicationArea = All;
+                    }
+                    field("Ending Date"; EndingDate)
+                    {
+                        ApplicationArea = All;
                     }
                 }
             }
         }
-        var
-            StartingDate: Date;
-            EndingDate : Date;
-            // EmployeeRecordT: Record "Employee Record T";
+    }
+    var
+        StartingDate: Date;
+        EndingDate: Date;
+    // EmployeeRecordT: Record "Employee Record T";
 }

@@ -3,11 +3,11 @@ page 50001 EmployeeRecordP
     ApplicationArea = All;
     Caption = 'Employee Record';
     PageType = List;
-    SourceTable = "Employee Record T";
+    SourceTable = "Employee Record";
     UsageCategory = Lists;
     // CardPageId = "Employee Card";
     AutoSplitKey = true;
-    
+
     layout
     {
         area(content)
@@ -48,7 +48,7 @@ page 50001 EmployeeRecordP
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.';
-                    
+
                 }
             }
         }

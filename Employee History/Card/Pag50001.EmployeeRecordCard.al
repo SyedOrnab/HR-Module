@@ -3,9 +3,9 @@ page 50003 EmployeeRecordCard
     // ApplicationArea = All;
     Caption = 'EmployeeRecordCard';
     PageType = Card;
-    SourceTable = "Employee Record T";
+    SourceTable = "Employee Record";
     AutoSplitKey = true;
-    
+
     layout
     {
         area(content)
@@ -13,7 +13,7 @@ page 50003 EmployeeRecordCard
             group(General)
             {
                 Caption = 'General';
-                
+
                 field("Emplyee No."; Rec."Emplyee No.")
                 {
                     ToolTip = 'Specifies the value of the Emplyee No. field.';
@@ -21,7 +21,7 @@ page 50003 EmployeeRecordCard
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.';
-                    
+
                 }
                 field("Emplyee Name"; Rec."Emplyee Name")
                 {
