@@ -2,7 +2,7 @@ table 50006 CSVimport
 {
     Caption = 'CSV IMPORT';
     DataClassification = ToBeClassified;
-    
+
     fields
     {
         field(1; "Transaction Name"; Code[10])
@@ -10,7 +10,7 @@ table 50006 CSVimport
             Caption = 'Transaction Name';
             DataClassification = CustomerContent;
         }
-        field(2; "Employee No."; Code[30])
+        field(2; "Employee ID"; Code[30])
         {
             Caption = 'Transaction Name';
             DataClassification = CustomerContent;
@@ -20,26 +20,22 @@ table 50006 CSVimport
             Caption = 'Line No.';
             DataClassification = CustomerContent;
         }
-        field(4; "Date"; Date)
+        field(4; "Attendance Time"; DateTime)
         {
-            Caption = 'Date';
-            DataClassification = CustomerContent;
-        }
-        field(5; "Entry Time"; Time)
-        {
-            Caption = 'Entry Time';
-            DataClassification = CustomerContent;
-        }
-        field(6; "Exit Time"; Time)
-        {
-            Caption = 'Exit Time';
+            Caption = 'Attendance Time';
             DataClassification = CustomerContent;
         }
         
+        field(5; "Terminal ID"; Code[10])
+        {
+            Caption = 'Terminal ID';
+            DataClassification = CustomerContent;
+        }
+
     }
     keys
     {
-        key(PK; "Transaction Name","Line No.")
+        key(PK; "Transaction Name", "Line No.")
         {
             Clustered = true;
         }
