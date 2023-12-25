@@ -12,7 +12,7 @@ table 50006 CSVimport
         }
         field(2; "Employee ID"; Code[30])
         {
-            Caption = 'Transaction Name';
+            Caption = 'Employee ID';
             DataClassification = CustomerContent;
         }
         field(3; "Line No."; Integer)
