@@ -67,7 +67,7 @@ pageextension 50002 "Employee Ext" extends "Employee Card"
                     Image = Import;
                     ApplicationArea = All;
                     RunObject = Page "CSV Import";
-                    RunPageLink = "Employee No." = FIELD("No.");
+                    RunPageLink = "Employee ID" = FIELD("No.");
                     ToolTip = 'CSV Import';
                 }
             }

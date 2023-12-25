@@ -30,7 +30,7 @@ page 50009 "CSV Import"
                     Visible = false;
                     ApplicationArea = All;
                 }
-                field("Employee No.";Rec."Employee No.")
+                field("Employee No."; Rec."Employee ID")
                 {
                     ApplicationArea = All;
                 }
@@ -39,15 +39,12 @@ page 50009 "CSV Import"
                     Visible = false;
                     ApplicationArea = All;
                 }
-                field(Date; Rec.Date)
+                field(Date; Rec."Attendance Time")
                 {
                     ApplicationArea = All;
                 }
-                field("Entry Time";Rec."Entry Time")
-                {
-                    ApplicationArea = All;
-                }
-                field("Exit Time";Rec."Exit Time")
+                //terminal
+                field("Terminal ID"; Rec."Terminal ID")
                 {
                     ApplicationArea = All;
                 }
@@ -81,7 +78,7 @@ page 50009 "CSV Import"
     }
     var
         TransName: Code[10];
-        FileName: Text[100];
+        FileName: Text[100];  //filepath
         TempCSVBuffer: Record "CSV Buffer" temporary;
         UploadMsg: Label 'Please choose the CSV file';
         NoFileMsg: Label 'No CSV file found';
@@ -143,10 +140,9 @@ page 50009 "CSV Import"
             ImportBuffer.Init();
             Evaluate(ImportBuffer."Transaction Name", TransName);
             ImportBuffer."Line No." := LineNO;
-            Evaluate(ImportBuffer."Employee No.", GetValueAtCell(RowNo, 2));
-            Evaluate(ImportBuffer.Date, GetValueAtCell(RowNo, 3));
-            Evaluate(ImportBuffer."Entry Time", GetValueAtCell(RowNo, 4));
-            Evaluate(ImportBuffer."Exit Time", GetValueAtCell(RowNo, 5));
+            Evaluate(ImportBuffer."Employee ID", GetValueAtCell(RowNo, 1));
+            Evaluate(ImportBuffer."Attendance Time", GetValueAtCell(RowNo, 2));
+            Evaluate(ImportBuffer."Terminal ID", GetValueAtCell(RowNo, 3));
             ImportBuffer.Insert();
         end;
         Message(CSVImportSuccess);
