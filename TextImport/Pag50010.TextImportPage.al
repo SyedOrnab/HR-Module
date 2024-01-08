@@ -5,7 +5,7 @@ page 50010 TextImportPage
     UsageCategory = Tasks;
     SourceTable = TextImport;
     AutoSplitKey = true;
-    Caption = 'CSV Import';
+    Caption = 'Attendance Data Import';
     DelayedInsert = true;
     InsertAllowed = false;
     ModifyAllowed = false;
@@ -43,7 +43,6 @@ page 50010 TextImportPage
                 {
                     ApplicationArea = All;
                 }
-                //terminal
                 field("Terminal ID"; Rec."Terminal ID")
                 {
                     ApplicationArea = All;
@@ -63,14 +62,14 @@ page 50010 TextImportPage
                 Image = ImportDatabase;
                 Promoted = true;
                 PromotedCategory = Process;
-                ToolTip = 'Import data from CSV';
+                ToolTip = 'Import data from Attendance Data';
 
                 trigger OnAction()
                 begin
                     if TransName = '' then
                         Error(BatchIsblankmsg);
-                    ReadCSVdata();
-                    ImportCSVData();
+                    ReadTextdata();
+                    ImportTextData();
 
                 end;
             }
@@ -79,16 +78,16 @@ page 50010 TextImportPage
     var
         TransName: Code[10];
         FileName: Text[100];  //filepath
-        TempCSVBuffer: Record "CSV Buffer" temporary;
-        UploadMsg: Label 'Please choose the CSV file';
-        NoFileMsg: Label 'No CSV file found';
+        TempTextBuffer: Record "CSV Buffer" temporary;
+        UploadMsg: Label 'Please choose the Text file';
+        NoFileMsg: Label 'No Text file found';
         BatchIsblankmsg: Label 'Trasaction name is blank';
-        CSVImportSuccess: Label 'CSV imported successfully';
+        TextImportSuccess: Label 'Text imported successfully';
 
 
 
 
-    local procedure ReadCSVdata()
+    local procedure ReadTextdata()
     var
         FileManagent: Codeunit "File Management";
         Istream: InStream;
@@ -99,24 +98,24 @@ page 50010 TextImportPage
             FileName := FileManagent.GetFileName(FromFile);
         end else
             Error(NoFileMsg);
-        TempCSVBuffer.Reset();
-        TempCSVBuffer.DeleteAll();
-        TempCSVBuffer.LoadDataFromStream(Istream, ',');
-        TempCSVBuffer.GetNumberOfLines();
+        TempTextBuffer.Reset();
+        TempTextBuffer.DeleteAll();
+        TempTextBuffer.LoadDataFromStream(Istream, ',');
+        TempTextBuffer.GetNumberOfLines();
     end;
 
     local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
 
     begin
-        TempCSVBuffer.Reset();
-        if TempCSVBuffer.Get(RowNo, ColNo) then
-            exit(TempCSVBuffer.Value)
+        TempTextBuffer.Reset();
+        if TempTextBuffer.Get(RowNo, ColNo) then
+            exit(TempTextBuffer.Value)
         else
             exit('');
     end;
 
 
-    local procedure ImportCSVData()
+    local procedure ImportTextData()
     var
         ImportBuffer: Record CSVimport;
         RowNo: Integer;
@@ -131,9 +130,9 @@ page 50010 TextImportPage
         ImportBuffer.Reset();
         if ImportBuffer.FindLast() then
             LineNO := ImportBuffer."Line No.";
-        TempCSVBuffer.Reset();
-        if TempCSVBuffer.FindLast() then begin
-            MaxRow := TempCSVBuffer."Line No.";
+        TempTextBuffer.Reset();
+        if TempTextBuffer.FindLast() then begin
+            MaxRow := TempTextBuffer."Line No.";
         end;
         for RowNo := 2 to MaxRow do begin
             LineNO := LineNO + 10000;
@@ -145,6 +144,6 @@ page 50010 TextImportPage
             Evaluate(ImportBuffer."Terminal ID", GetValueAtCell(RowNo, 3));
             ImportBuffer.Insert();
         end;
-        Message(CSVImportSuccess);
+        Message(TextImportSuccess);
     end;
 }
